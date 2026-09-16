@@ -1,0 +1,137 @@
+---
+import { Activity, Server } from '@lucide/astro';
+---
+
+<div class="my-8 rounded-md border border-neutral-200 dark:border-neutral-800 bg-neutral-950 text-neutral-100 p-5 sm:p-6 font-sans">
+  
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-neutral-800 pb-3 mb-5 gap-3">
+    <div>
+      <div class="flex items-center gap-2 text-neutral-400 font-mono text-xs font-semibold uppercase tracking-wider">
+        <Server class="w-3.5 h-3.5 text-blue-400" />
+        <span>Interactive Kafka Architecture Visualizer</span>
+      </div>
+      <h4 class="text-base font-bold text-white mt-0.5">Commit Log, Offsets & Zero-Copy Pipeline</h4>
+    </div>
+    <div class="flex items-center gap-1 bg-neutral-900 p-1 rounded-md text-xs font-mono">
+      <button
+        id="kafka-tab-log"
+        class="px-3 py-1 rounded bg-neutral-800 text-white font-medium transition-colors"
+        onclick="switchKafkaTab('log')"
+      >
+        Commit Log & Lag
+      </button>
+      <button
+        id="kafka-tab-zerocopy"
+        class="px-3 py-1 rounded text-neutral-400 hover:text-white transition-colors"
+        onclick="switchKafkaTab('zerocopy')"
+      >
+        Zero-Copy OS
+      </button>
+    </div>
+  </div>
+
+  <!-- Tab 1: Commit Log & Consumer Lag -->
+  <div id="kafka-diag-log" class="space-y-5">
+    <div class="bg-neutral-900/80 p-4 rounded-md border border-neutral-800 space-y-3">
+      <div class="text-xs font-mono text-neutral-400 flex items-center justify-between">
+        <span>Partition 0: Append-Only Commit Log File</span>
+        <span class="text-emerald-400">Sequential I/O (No seek delays)</span>
+      </div>
+
+      <!-- Log Cells -->
+      <div class="grid grid-cols-6 gap-1.5 font-mono text-xs text-center">
+        <div class="p-2 rounded-sm bg-neutral-800 border border-neutral-700 text-neutral-300">
+          <div class="text-[10px] text-neutral-500">Offset 101</div>
+          <div class="font-bold text-blue-400">OrderCreated</div>
+        </div>
+        <div class="p-2 rounded-sm bg-neutral-800 border border-neutral-700 text-neutral-300">
+          <div class="text-[10px] text-neutral-500">Offset 102</div>
+          <div class="font-bold text-blue-400">StockReserved</div>
+        </div>
+        <div class="p-2 rounded-sm bg-neutral-800 border border-neutral-700 text-neutral-300 border-l-2 border-l-emerald-500">
+          <div class="text-[10px] text-emerald-400 font-bold">Committed (103)</div>
+          <div class="font-bold text-emerald-300">ItemPicked</div>
+        </div>
+        <div class="p-2 rounded-sm bg-neutral-800/60 border border-amber-500/40 text-amber-200">
+          <div class="text-[10px] text-amber-400">Lag Token 1</div>
+          <div class="font-bold">OrderPacked</div>
+        </div>
+        <div class="p-2 rounded-sm bg-neutral-800/60 border border-amber-500/40 text-amber-200">
+          <div class="text-[10px] text-amber-400">Lag Token 2</div>
+          <div class="font-bold">Dispatched</div>
+        </div>
+        <div class="p-2 rounded-sm bg-neutral-950 border border-neutral-800 text-neutral-600">
+          <div class="text-[10px] text-neutral-500">LEO (106)</div>
+          <div class="font-bold">Append Point</div>
+        </div>
+      </div>
+
+      <!-- Lag Formula Display -->
+      <div class="flex flex-col sm:flex-row items-center justify-between pt-2 text-xs font-mono bg-neutral-950 p-3 rounded-md border border-neutral-800 gap-2">
+        <div class="flex items-center gap-2">
+          <Activity class="w-4 h-4 text-amber-400" />
+          <span>Consumer Group Lag = Log End Offset (106) - Committed Offset (103)</span>
+        </div>
+        <div class="px-2.5 py-1 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-bold">
+          Lag: 3 Messages Behind
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 2: Zero-Copy -->
+  <div id="kafka-diag-zerocopy" class="hidden space-y-5">
+    <div class="bg-neutral-900/80 p-5 rounded-md border border-neutral-800 space-y-4">
+      <div class="text-xs font-mono text-neutral-400 flex items-center justify-between">
+        <span>Linux sendfile() OS Kernel Bypass vs Standard User-Space Copies</span>
+        <span class="text-blue-400">0 CPU Buffer Copies</span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono">
+        <!-- Naive -->
+        <div class="p-4 rounded-md bg-neutral-950 border border-neutral-800 space-y-2">
+          <div class="text-rose-400 font-bold">Standard Broker (4 Switches, 3 Copies)</div>
+          <div class="space-y-1 text-[11px] text-neutral-400">
+            <div>1. Disk ➔ Kernel Page Cache (DMA)</div>
+            <div>2. Kernel Cache ➔ JVM Heap Memory (CPU Copy)</div>
+            <div>3. JVM Heap ➔ Socket Buffer (CPU Copy)</div>
+            <div>4. Socket Buffer ➔ NIC Network (DMA)</div>
+          </div>
+        </div>
+
+        <!-- Zero Copy -->
+        <div class="p-4 rounded-md bg-neutral-950 border border-emerald-500/30 space-y-2">
+          <div class="text-emerald-400 font-bold">Kafka Zero-Copy (2 Switches, 0 CPU Copies)</div>
+          <div class="space-y-1 text-[11px] text-neutral-300">
+            <div class="text-emerald-300">1. Disk ➔ Kernel Page Cache (DMA)</div>
+            <div class="text-neutral-500 line-through">Bypasses JVM User-Space completely!</div>
+            <div class="text-emerald-300">2. Kernel Page Cache ➔ NIC Network (DMA)</div>
+            <div class="text-emerald-400 font-semibold pt-1">Direct Kernel DMA Pipeline</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script is:inline>
+  function switchKafkaTab(tabName) {
+    const logTab = document.getElementById('kafka-tab-log');
+    const zeroTab = document.getElementById('kafka-tab-zerocopy');
+    const logDiag = document.getElementById('kafka-diag-log');
+    const zeroDiag = document.getElementById('kafka-diag-zerocopy');
+
+    if (tabName === 'log') {
+      logTab.className = 'px-3 py-1 rounded bg-neutral-800 text-white font-medium transition-colors';
+      zeroTab.className = 'px-3 py-1 rounded text-neutral-400 hover:text-white transition-colors';
+      logDiag.classList.remove('hidden');
+      zeroDiag.classList.add('hidden');
+    } else {
+      zeroTab.className = 'px-3 py-1 rounded bg-neutral-800 text-white font-medium transition-colors';
+      logTab.className = 'px-3 py-1 rounded text-neutral-400 hover:text-white transition-colors';
+      zeroDiag.classList.remove('hidden');
+      logDiag.classList.add('hidden');
+    }
+  }
+</script>

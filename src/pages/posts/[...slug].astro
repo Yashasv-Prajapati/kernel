@@ -1,0 +1,243 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TableOfContents from '../../components/TableOfContents.astro';
+import Callout from '../../components/Callout.astro';
+import MemoryDiagram from '../../components/MemoryDiagram.astro';
+import KafkaDiagram from '../../components/KafkaDiagram.astro';
+import { getCollection, render } from 'astro:content';
+import { Calendar, Clock, ArrowLeft, ArrowRight, Share2 } from '@lucide/astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post, allPosts: posts },
+  }));
+}
+
+const { post, allPosts } = Astro.props;
+const { Content, headings } = await render(post);
+
+// Prev and Next article logic
+const sortedPosts = allPosts
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const currentIndex = sortedPosts.findIndex((p) => p.id === post.id);
+const prevPost = currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null;
+const nextPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
+
+// Related posts based on shared tags
+const relatedPosts = sortedPosts
+  .filter((p) => p.id !== post.id && p.data.tags.some((tag) => post.data.tags.includes(tag)))
+  .slice(0, 2);
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  image={post.data.heroImage}
+  article={true}
+  pubDate={post.data.pubDate}
+>
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-12">
+    
+    <!-- Top Back Link -->
+    <div class="mb-6">
+      <a
+        href="/blog"
+        class="inline-flex items-center gap-1 text-xs font-mono text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors"
+      >
+        <ArrowLeft class="w-3.5 h-3.5" />
+        <span>Back to Blog Archives</span>
+      </a>
+    </div>
+
+    <!-- Article Header -->
+    <header class="max-w-3xl mx-auto space-y-4 mb-10">
+      <!-- Tags -->
+      <div class="flex flex-wrap gap-1.5">
+        {post.data.tags.map((tag) => (
+          <a
+            href={`/blog?tag=${tag}`}
+            class="px-2 py-0.5 rounded-sm bg-neutral-100 dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 text-xs font-mono border border-neutral-200 dark:border-neutral-800 hover:border-neutral-400 dark:hover:border-neutral-600 transition-colors"
+          >
+            #{tag}
+          </a>
+        ))}
+      </div>
+
+      <!-- Title -->
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-neutral-900 dark:text-white tracking-tight leading-snug">
+        {post.data.title}
+      </h1>
+
+      <!-- Description -->
+      <p class="text-base text-neutral-600 dark:text-neutral-300 leading-relaxed font-normal">
+        {post.data.description}
+      </p>
+
+      <!-- Meta Bar -->
+      <div class="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-neutral-200 dark:border-neutral-800 text-xs text-neutral-500 font-mono">
+        <div class="flex items-center gap-3">
+          <span class="flex items-center gap-1">
+            <Calendar class="w-3.5 h-3.5" />
+            {post.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+          </span>
+          <span>•</span>
+          {post.data.readingTime && (
+            <span class="flex items-center gap-1">
+              <Clock class="w-3.5 h-3.5" />
+              {post.data.readingTime}
+            </span>
+          )}
+        </div>
+
+        <!-- Share Actions -->
+        <button
+          id="share-btn"
+          class="p-1.5 rounded-md bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 hover:text-neutral-900 dark:hover:text-white transition-colors"
+          aria-label="Share article link"
+        >
+          <Share2 class="w-3.5 h-3.5" />
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Grid with Floating ToC -->
+    <div class="flex flex-col lg:flex-row gap-8 items-start justify-center">
+      
+      <!-- Prose Article Content Container -->
+      <article class="prose dark:prose-invert max-w-3xl w-full flex-grow text-neutral-800 dark:text-neutral-200 leading-relaxed font-sans text-sm sm:text-base">
+        
+        {post.id === 'paged-attention-vs-radix-attention' && (
+          <MemoryDiagram />
+        )}
+
+        {post.id === 'apache-kafka-internals-commit-log' && (
+          <KafkaDiagram />
+        )}
+
+        <!-- Main Markdown Content -->
+        <Content components={{ Callout }} />
+      </article>
+
+      <!-- Sticky Table of Contents on Desktop -->
+      <TableOfContents headings={headings} />
+    </div>
+
+    <!-- Related Articles & Prev / Next Navigation -->
+    <footer class="max-w-3xl mx-auto pt-10 mt-10 border-t border-neutral-200 dark:border-neutral-800 space-y-10">
+      
+      <!-- Prev / Next Navigation Links -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {prevPost ? (
+          <a
+            href={`/posts/${prevPost.id}`}
+            class="p-3.5 rounded-md border border-neutral-200 dark:border-neutral-800 hover:border-neutral-400 dark:hover:border-neutral-600 transition-colors text-left space-y-1 group"
+          >
+            <div class="flex items-center gap-1 text-xs text-neutral-500 font-mono">
+              <ArrowLeft class="w-3 h-3 group-hover:-translate-x-0.5 transition-transform" />
+              <span>Previous Post</span>
+            </div>
+            <div class="text-xs sm:text-sm font-bold text-neutral-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 line-clamp-1">
+              {prevPost.data.title}
+            </div>
+          </a>
+        ) : <div />}
+
+        {nextPost ? (
+          <a
+            href={`/posts/${nextPost.id}`}
+            class="p-3.5 rounded-md border border-neutral-200 dark:border-neutral-800 hover:border-neutral-400 dark:hover:border-neutral-600 transition-colors text-right space-y-1 group"
+          >
+            <div class="flex items-center justify-end gap-1 text-xs text-neutral-500 font-mono">
+              <span>Next Post</span>
+              <ArrowRight class="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+            </div>
+            <div class="text-xs sm:text-sm font-bold text-neutral-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 line-clamp-1">
+              {nextPost.data.title}
+            </div>
+          </a>
+        ) : <div />}
+      </div>
+
+      <!-- Related Articles Section -->
+      {relatedPosts.length > 0 && (
+        <div class="space-y-3">
+          <h3 class="text-xs font-mono uppercase tracking-wider text-neutral-500 font-semibold">
+            Related Articles
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {relatedPosts.map((related) => (
+              <a
+                href={`/posts/${related.id}`}
+                class="p-3.5 rounded-md border border-neutral-200 dark:border-neutral-800 hover:border-neutral-400 dark:hover:border-neutral-600 bg-card-light dark:bg-card-dark transition-colors space-y-1 group"
+              >
+                <div class="text-[11px] text-neutral-500 font-mono">
+                  {related.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                </div>
+                <h4 class="text-xs sm:text-sm font-bold text-neutral-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  {related.data.title}
+                </h4>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+    </footer>
+
+  </div>
+</BaseLayout>
+
+<script>
+  // Add Copy Button to all Code Blocks dynamically
+  const codeBlocks = document.querySelectorAll('pre.shiki');
+
+  codeBlocks.forEach((codeBlock) => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'code-block-wrapper relative my-6 rounded-md overflow-hidden border border-neutral-200 dark:border-neutral-800 bg-[#0d1117]';
+    
+    codeBlock.parentNode?.insertBefore(wrapper, codeBlock);
+    wrapper.appendChild(codeBlock);
+
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'absolute top-2.5 right-2.5 px-2 py-1 rounded bg-neutral-800 hover:bg-neutral-700 text-neutral-300 text-xs font-mono flex items-center gap-1 opacity-80 hover:opacity-100 transition-opacity border border-neutral-700';
+    copyBtn.innerHTML = `
+      <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+      <span>Copy</span>
+    `;
+
+    copyBtn.addEventListener('click', async () => {
+      const codeText = codeBlock.querySelector('code')?.innerText || '';
+      await navigator.clipboard.writeText(codeText);
+      copyBtn.innerHTML = `
+        <svg class="w-3 h-3 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <span class="text-emerald-400">Copied</span>
+      `;
+      setTimeout(() => {
+        copyBtn.innerHTML = `
+          <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+          <span>Copy</span>
+        `;
+      }, 2000);
+    });
+
+    wrapper.appendChild(copyBtn);
+  });
+
+  // Share button handler
+  const shareBtn = document.getElementById('share-btn');
+  shareBtn?.addEventListener('click', async () => {
+    if (navigator.share) {
+      await navigator.share({
+        title: document.title,
+        url: window.location.href,
+      });
+    } else {
+      await navigator.clipboard.writeText(window.location.href);
+      alert('Article link copied to clipboard!');
+    }
+  });
+</script>

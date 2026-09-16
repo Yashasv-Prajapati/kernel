@@ -1,0 +1,164 @@
+---
+import { Layers, GitBranch, Cpu } from '@lucide/astro';
+---
+
+<div class="my-8 rounded-md border border-neutral-200 dark:border-neutral-800 bg-neutral-950 text-neutral-100 p-5 sm:p-6 font-sans">
+  
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-neutral-800 pb-3 mb-5 gap-3">
+    <div>
+      <div class="flex items-center gap-2 text-neutral-400 font-mono text-xs font-semibold uppercase tracking-wider">
+        <Cpu class="w-3.5 h-3.5 text-blue-400" />
+        <span>Architectural Memory Comparison</span>
+      </div>
+      <h4 class="text-base font-bold text-white mt-0.5">vLLM (PagedAttention) vs SGLang (RadixAttention)</h4>
+    </div>
+    <div class="flex items-center gap-1 bg-neutral-900 p-1 rounded-md text-xs font-mono">
+      <button
+        id="tab-paged"
+        class="px-3 py-1 rounded bg-neutral-800 text-white font-medium transition-colors"
+        onclick="switchDiagramTab('paged')"
+      >
+        PagedAttention
+      </button>
+      <button
+        id="tab-radix"
+        class="px-3 py-1 rounded text-neutral-400 hover:text-white transition-colors"
+        onclick="switchDiagramTab('radix')"
+      >
+        RadixAttention
+      </button>
+    </div>
+  </div>
+
+  <!-- PagedAttention Diagram Content -->
+  <div id="diagram-paged" class="space-y-5">
+    <div class="bg-neutral-900/80 p-4 rounded-md border border-neutral-800">
+      <div class="text-xs font-mono text-neutral-400 mb-2 flex items-center justify-between">
+        <span>Logical KV Tokens (Sequence)</span>
+        <span class="text-emerald-400">Zero External Memory Fragmentation</span>
+      </div>
+      <div class="grid grid-cols-4 sm:grid-cols-8 gap-1.5 text-center font-mono text-xs">
+        <div class="p-2 rounded-sm bg-neutral-800 border border-neutral-700 text-neutral-200">Block 0</div>
+        <div class="p-2 rounded-sm bg-neutral-800 border border-neutral-700 text-neutral-200">Block 0</div>
+        <div class="p-2 rounded-sm bg-neutral-800 border border-neutral-700 text-neutral-200">Block 1</div>
+        <div class="p-2 rounded-sm bg-neutral-800 border border-neutral-700 text-neutral-200">Block 1</div>
+        <div class="p-2 rounded-sm bg-neutral-800 border border-neutral-700 text-neutral-200">Block 2</div>
+        <div class="p-2 rounded-sm bg-neutral-800 border border-neutral-700 text-neutral-200">Block 2</div>
+        <div class="p-2 rounded-sm bg-neutral-800 border border-neutral-700 text-neutral-200">Block 3</div>
+        <div class="p-2 rounded-sm bg-neutral-950 text-neutral-600 border border-neutral-800">Free</div>
+      </div>
+    </div>
+
+    <!-- Mapping Table Arrow -->
+    <div class="flex justify-center my-1 text-neutral-400">
+      <div class="flex items-center gap-2 text-xs font-mono bg-neutral-900 px-3 py-1 rounded-md border border-neutral-800">
+        <Layers class="w-3.5 h-3.5 text-blue-400" />
+        <span>Block Table Indirection Vector</span>
+      </div>
+    </div>
+
+    <!-- Physical VRAM Pages -->
+    <div class="bg-neutral-900/80 p-4 rounded-md border border-neutral-800">
+      <div class="text-xs font-mono text-neutral-400 mb-2 flex items-center justify-between">
+        <span>Physical GPU VRAM Pages (Non-contiguous)</span>
+        <span class="text-neutral-500">Block Size: 16 Tokens</span>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
+        <div class="p-3 rounded-md bg-neutral-950 border border-neutral-800 space-y-1">
+          <div class="text-blue-400 font-bold">Physical Frame #7</div>
+          <div class="text-neutral-400 text-[11px]">Logical Block 0</div>
+          <div class="text-[10px] text-emerald-400">100% Occupied</div>
+        </div>
+        <div class="p-3 rounded-md bg-neutral-950 border border-neutral-800 space-y-1">
+          <div class="text-purple-400 font-bold">Physical Frame #2</div>
+          <div class="text-neutral-400 text-[11px]">Logical Block 2</div>
+          <div class="text-[10px] text-emerald-400">100% Occupied</div>
+        </div>
+        <div class="p-3 rounded-md bg-neutral-950 border border-neutral-800 space-y-1">
+          <div class="text-indigo-400 font-bold">Physical Frame #12</div>
+          <div class="text-neutral-400 text-[11px]">Logical Block 1</div>
+          <div class="text-[10px] text-emerald-400">100% Occupied</div>
+        </div>
+        <div class="p-3 rounded-md bg-neutral-950 border border-neutral-800 space-y-1">
+          <div class="text-amber-400 font-bold">Physical Frame #3</div>
+          <div class="text-neutral-400 text-[11px]">Logical Block 3</div>
+          <div class="text-[10px] text-amber-400">Partial (4/16)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RadixAttention Diagram Content -->
+  <div id="diagram-radix" class="hidden space-y-5">
+    <div class="bg-neutral-900/80 p-5 rounded-md border border-neutral-800">
+      <div class="text-xs font-mono text-neutral-400 mb-4 flex items-center justify-between">
+        <span>Radix Tree Prefix Cache Structure</span>
+        <span class="text-purple-400">Shared System Prompt Cache</span>
+      </div>
+      
+      <!-- Tree Visualizer -->
+      <div class="space-y-4 font-mono text-xs">
+        <!-- Root Node -->
+        <div class="flex items-center gap-3">
+          <div class="px-3 py-1.5 rounded-md bg-neutral-800 border border-neutral-700 text-neutral-200 font-bold flex items-center gap-2">
+            <GitBranch class="w-4 h-4 text-purple-400" />
+            <span>Root (System Prompt: "You are a Python coding assistant...")</span>
+          </div>
+          <span class="text-neutral-500 text-[11px]">Ref Count: 3</span>
+        </div>
+
+        <div class="pl-6 border-l-2 border-neutral-800 space-y-3">
+          <!-- Branch A -->
+          <div class="flex items-center gap-3">
+            <div class="w-4 h-0.5 bg-neutral-700"></div>
+            <div class="px-3 py-1.5 rounded-md bg-neutral-900 border border-neutral-800 text-neutral-200">
+              User A: "Write a CUDA kernel for matrix transpose"
+            </div>
+            <span class="text-emerald-400 text-[10px] font-sans">Active Request</span>
+          </div>
+
+          <!-- Branch B -->
+          <div class="flex items-center gap-3">
+            <div class="w-4 h-0.5 bg-neutral-700"></div>
+            <div class="px-3 py-1.5 rounded-md bg-neutral-900 border border-neutral-800 text-neutral-200">
+              User B: "Explain PagedAttention memory allocation"
+            </div>
+            <span class="text-emerald-400 text-[10px] font-sans">Active Request</span>
+          </div>
+
+          <!-- Branch C (Eviction candidate) -->
+          <div class="flex items-center gap-3">
+            <div class="w-4 h-0.5 bg-neutral-700"></div>
+            <div class="px-3 py-1.5 rounded-md bg-neutral-950 border border-neutral-800 text-neutral-500 opacity-60">
+              User C: "How to fix GCC linker error?" [Finished]
+            </div>
+            <span class="text-rose-400 text-[10px] font-sans">LRU Eviction Candidate</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script is:inline>
+  function switchDiagramTab(tabName) {
+    const pagedTab = document.getElementById('tab-paged');
+    const radixTab = document.getElementById('tab-radix');
+    const pagedDiag = document.getElementById('diagram-paged');
+    const radixDiag = document.getElementById('diagram-radix');
+
+    if (tabName === 'paged') {
+      pagedTab.className = 'px-3 py-1 rounded bg-neutral-800 text-white font-medium transition-colors';
+      radixTab.className = 'px-3 py-1 rounded text-neutral-400 hover:text-white transition-colors';
+      pagedDiag.classList.remove('hidden');
+      radixDiag.classList.add('hidden');
+    } else {
+      radixTab.className = 'px-3 py-1 rounded bg-neutral-800 text-white font-medium transition-colors';
+      pagedTab.className = 'px-3 py-1 rounded text-neutral-400 hover:text-white transition-colors';
+      radixDiag.classList.remove('hidden');
+      pagedDiag.classList.add('hidden');
+    }
+  }
+</script>

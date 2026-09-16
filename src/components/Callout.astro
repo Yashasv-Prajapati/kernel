@@ -1,0 +1,51 @@
+---
+import { Lightbulb, Zap, Info } from '@lucide/astro';
+
+export interface Props {
+  type?: 'note' | 'tip' | 'warning' | 'info';
+  title?: string;
+}
+
+const { type = 'note', title } = Astro.props;
+
+const styles = {
+  note: {
+    bg: 'bg-neutral-100/80 dark:bg-neutral-900/80 border-l-blue-500 text-neutral-900 dark:text-neutral-100',
+    icon: Lightbulb,
+    iconColor: 'text-blue-500',
+    defaultTitle: 'Note',
+  },
+  tip: {
+    bg: 'bg-neutral-100/80 dark:bg-neutral-900/80 border-l-emerald-500 text-neutral-900 dark:text-neutral-100',
+    icon: Zap,
+    iconColor: 'text-emerald-500',
+    defaultTitle: 'Optimization Tip',
+  },
+  warning: {
+    bg: 'bg-neutral-100/80 dark:bg-neutral-900/80 border-l-amber-500 text-neutral-900 dark:text-neutral-100',
+    icon: Info,
+    iconColor: 'text-amber-500',
+    defaultTitle: 'Bottleneck Warning',
+  },
+  info: {
+    bg: 'bg-neutral-100/80 dark:bg-neutral-900/80 border-l-purple-500 text-neutral-900 dark:text-neutral-100',
+    icon: Info,
+    iconColor: 'text-purple-500',
+    defaultTitle: 'Key Takeaway',
+  },
+};
+
+const currentStyle = styles[type] || styles.note;
+const IconComponent = currentStyle.icon;
+const displayTitle = title || currentStyle.defaultTitle;
+---
+
+<div class={`my-6 p-4 rounded-md border border-neutral-200 dark:border-neutral-800 border-l-4 ${currentStyle.bg}`}>
+  <div class="flex items-center gap-2 font-mono font-semibold text-xs mb-1.5 uppercase tracking-wider">
+    <IconComponent class={`w-4 h-4 shrink-0 ${currentStyle.iconColor}`} />
+    <span>{displayTitle}</span>
+  </div>
+  <div class="text-xs sm:text-sm leading-relaxed text-neutral-700 dark:text-neutral-300 [&>p]:m-0">
+    <slot />
+  </div>
+</div>

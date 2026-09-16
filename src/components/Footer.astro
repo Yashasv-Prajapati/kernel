@@ -1,0 +1,88 @@
+---
+import { Mail, Rss, Code } from '@lucide/astro';
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="mt-auto border-t border-neutral-200/80 dark:border-neutral-800/80 bg-neutral-50/50 dark:bg-neutral-900/40 py-12 transition-colors">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
+      
+      <!-- Column 1: Bio / Brand -->
+      <div class="md:col-span-2 space-y-3">
+        <div class="flex items-center gap-2 font-mono font-bold text-neutral-900 dark:text-white">
+          <Code class="w-5 h-5 text-blue-500" />
+          <span>Yashasav</span>
+        </div>
+        <p class="text-sm text-neutral-600 dark:text-neutral-400 max-w-sm leading-relaxed">
+          Inference Engines & Distributed Systems Engineer. Writing about LLM serving runtimes, their optimizations, Apache Kafka, high-throughput systems, and databases.
+        </p>
+        <div class="flex items-center gap-3 pt-2 text-neutral-600 dark:text-neutral-400">
+          <a
+            href="https://github.com/Yashasv-Prajapati"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+            class="p-2 rounded-lg bg-neutral-200/60 dark:bg-neutral-800/80 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-300/60 dark:hover:bg-neutral-700 transition-colors"
+          >
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+          </a>
+          <a
+            href="https://x.com/infra_engineer4"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="X (Twitter)"
+            class="p-2 rounded-lg bg-neutral-200/60 dark:bg-neutral-800/80 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-300/60 dark:hover:bg-neutral-700 transition-colors"
+          >
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+          <a
+            href="mailto:yamuprajapati@gmail.com"
+            aria-label="Email"
+            class="p-2 rounded-lg bg-neutral-200/60 dark:bg-neutral-800/80 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-300/60 dark:hover:bg-neutral-700 transition-colors"
+          >
+            <Mail class="w-4 h-4" />
+          </a>
+          <a
+            href="/rss.xml"
+            aria-label="RSS Feed"
+            class="p-2 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 hover:bg-amber-500/20 transition-colors"
+          >
+            <Rss class="w-4 h-4" />
+          </a>
+        </div>
+      </div>
+
+      <!-- Column 2: Navigation -->
+      <div class="space-y-3">
+        <h4 class="text-xs font-semibold text-neutral-900 dark:text-neutral-200 uppercase tracking-wider">Navigation</h4>
+        <ul class="space-y-2 text-sm text-neutral-600 dark:text-neutral-400">
+          <li><a href="/" class="hover:text-blue-500 transition-colors">Home</a></li>
+          <li><a href="/blog" class="hover:text-blue-500 transition-colors">Blog Archives</a></li>
+          <li><a href="/publications" class="hover:text-blue-500 transition-colors">Publications & Specs</a></li>
+          <li><a href="/about" class="hover:text-blue-500 transition-colors">About & Journey</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Topics -->
+      <div class="space-y-3">
+        <h4 class="text-xs font-semibold text-neutral-900 dark:text-neutral-200 uppercase tracking-wider">Topics</h4>
+        <ul class="space-y-2 text-sm text-neutral-600 dark:text-neutral-400">
+          <li><a href="/blog?tag=inference" class="hover:text-blue-500 transition-colors">#inference</a></li>
+          <li><a href="/blog?tag=kafka" class="hover:text-blue-500 transition-colors">#kafka</a></li>
+          <li><a href="/blog?tag=distributed-systems" class="hover:text-blue-500 transition-colors">#distributed-systems</a></li>
+          <li><a href="/blog?tag=databases" class="hover:text-blue-500 transition-colors">#databases</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="pt-8 border-t border-neutral-200 dark:border-neutral-800 flex flex-col sm:flex-row items-center justify-between text-xs text-neutral-500 dark:text-neutral-500 gap-4">
+      <p>© {currentYear} Yashasav. Built for learning.</p>
+    </div>
+  </div>
+</footer>

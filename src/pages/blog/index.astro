@@ -1,0 +1,165 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { Search, Calendar, Clock, BookOpen } from '@lucide/astro';
+
+const allPosts = await getCollection('posts', ({ data }) => !data.draft);
+const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const allTags = Array.from(new Set(allPosts.flatMap((p) => p.data.tags)));
+---
+
+<BaseLayout
+  title="Blog Archives | Yashasav"
+  description="Technical articles and deep dives on LLM inference, PagedAttention, RadixAttention, CUDA kernels, and systems software."
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 py-12 space-y-8">
+    
+    <div class="space-y-3">
+      <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-neutral-100 dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 text-xs font-mono border border-neutral-200 dark:border-neutral-800">
+        <BookOpen class="w-3.5 h-3.5 text-neutral-500" />
+        <span>Technical Writing</span>
+      </div>
+      <h1 class="text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
+        Blog Archives
+      </h1>
+      <p class="text-neutral-600 dark:text-neutral-400 text-sm max-w-2xl leading-relaxed">
+        Deep-dive technical breakdowns on high-performance inference runtimes, memory layout optimizations, and GPU hardware execution.
+      </p>
+    </div>
+
+    <!-- Search & Filter Controls -->
+    <div class="space-y-3 pt-2">
+      <div class="relative w-full">
+        <Search class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400" />
+        <input
+          id="search-input"
+          type="text"
+          placeholder="Search articles by keyword or tag..."
+          class="w-full pl-10 pr-4 py-2.5 rounded-md border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-black text-xs sm:text-sm text-neutral-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-neutral-400 dark:focus:ring-neutral-600 transition-colors placeholder:text-neutral-500 font-mono"
+        />
+      </div>
+
+      <!-- Tag Filters -->
+      <div class="flex flex-wrap items-center gap-1.5">
+        <button
+          class="tag-filter-btn px-2.5 py-1 rounded-sm text-xs font-mono bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 font-medium transition-colors"
+          data-tag="all"
+        >
+          #all ({allPosts.length})
+        </button>
+        {allTags.map((tag) => (
+          <button
+            class="tag-filter-btn px-2.5 py-1 rounded-sm text-xs font-mono bg-neutral-100 dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-400 dark:hover:border-neutral-600 transition-colors"
+            data-tag={tag}
+          >
+            #{tag}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Article List -->
+    <div id="posts-container" class="space-y-4">
+      {sortedPosts.map((post) => (
+        <article
+          class="post-item p-5 rounded-md border border-neutral-200 dark:border-neutral-800 bg-card-light dark:bg-card-dark hover:border-neutral-400 dark:hover:border-neutral-600 transition-colors space-y-2.5"
+          data-title={post.data.title.toLowerCase()}
+          data-description={post.data.description.toLowerCase()}
+          data-tags={post.data.tags.join(',').toLowerCase()}
+        >
+          <div class="flex items-center gap-2 text-xs text-neutral-500 font-mono">
+            <span class="flex items-center gap-1">
+              <Calendar class="w-3.5 h-3.5" />
+              {post.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+            </span>
+            <span>•</span>
+            {post.data.readingTime && (
+              <span class="flex items-center gap-1">
+                <Clock class="w-3.5 h-3.5" />
+                {post.data.readingTime}
+              </span>
+            )}
+          </div>
+
+          <h2 class="text-lg font-bold text-neutral-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors leading-snug">
+            <a href={`/posts/${post.id}`}>
+              {post.data.title}
+            </a>
+          </h2>
+
+          <p class="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+            {post.data.description}
+          </p>
+
+          <div class="flex items-center gap-1.5 pt-2 text-[11px] font-mono text-neutral-500">
+            {post.data.tags.map((tag) => (
+              <span class="px-1.5 py-0.5 rounded-sm bg-neutral-100 dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-800">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        </article>
+      ))}
+    </div>
+
+  </div>
+</BaseLayout>
+
+<script>
+  // Client-side Search and Tag Filtering Logic
+  const searchInput = document.getElementById('search-input') as HTMLInputElement;
+  const tagButtons = document.querySelectorAll<HTMLButtonElement>('.tag-filter-btn');
+  const postItems = document.querySelectorAll<HTMLElement>('.post-item');
+
+  let activeTag = 'all';
+
+  // Read URL query param if present
+  const urlParams = new URLSearchParams(window.location.search);
+  const tagFromUrl = urlParams.get('tag');
+  if (tagFromUrl) {
+    activeTag = tagFromUrl;
+    tagButtons.forEach(btn => {
+      if (btn.getAttribute('data-tag') === activeTag) {
+        btn.className = 'tag-filter-btn px-2.5 py-1 rounded-sm text-xs font-mono bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 font-medium transition-colors';
+      } else {
+        btn.className = 'tag-filter-btn px-2.5 py-1 rounded-sm text-xs font-mono bg-neutral-100 dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-800 transition-colors';
+      }
+    });
+    filterPosts();
+  }
+
+  function filterPosts() {
+    const query = searchInput?.value.toLowerCase() || '';
+
+    postItems.forEach((item) => {
+      const title = item.getAttribute('data-title') || '';
+      const description = item.getAttribute('data-description') || '';
+      const tags = item.getAttribute('data-tags') || '';
+
+      const matchesSearch = title.includes(query) || description.includes(query) || tags.includes(query);
+      const matchesTag = activeTag === 'all' || tags.includes(activeTag.toLowerCase());
+
+      if (matchesSearch && matchesTag) {
+        item.style.display = 'block';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  }
+
+  searchInput?.addEventListener('input', filterPosts);
+
+  tagButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      activeTag = btn.getAttribute('data-tag') || 'all';
+      
+      tagButtons.forEach((b) => {
+        b.className = 'tag-filter-btn px-2.5 py-1 rounded-sm text-xs font-mono bg-neutral-100 dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-800 transition-colors';
+      });
+      btn.className = 'tag-filter-btn px-2.5 py-1 rounded-sm text-xs font-mono bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 font-medium transition-colors';
+
+      filterPosts();
+    });
+  });
+</script>

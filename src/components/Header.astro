@@ -1,0 +1,104 @@
+---
+import { Sun, Moon, Menu, X, Terminal } from '@lucide/astro';
+
+const navItems = [
+  { name: 'Home', path: '/' },
+  { name: 'Blog', path: '/blog' },
+  { name: 'Publications', path: '/publications' },
+  { name: 'About', path: '/about' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 backdrop-blur-md bg-bg-light/90 dark:bg-bg-dark/90 border-b border-neutral-200 dark:border-neutral-800 transition-colors">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+    <!-- Brand Logo -->
+    <a href="/" class="flex items-center gap-2 font-mono font-bold text-base text-neutral-900 dark:text-white tracking-tight hover:opacity-80 transition-opacity">
+      <div class="p-1 rounded bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-neutral-800 dark:text-neutral-200">
+        <Terminal class="w-4 h-4" />
+      </div>
+      <span>yashasav</span>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:flex items-center gap-1">
+      {navItems.map((item) => {
+        const isActive = item.path === '/' 
+          ? currentPath === '/' 
+          : currentPath.startsWith(item.path);
+        return (
+          <a
+            href={item.path}
+            class={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
+              isActive
+                ? 'text-neutral-900 dark:text-white font-semibold bg-neutral-200/60 dark:bg-neutral-800/80'
+                : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900'
+            }`}
+          >
+            {item.name}
+          </a>
+        );
+      })}
+    </nav>
+
+    <!-- Theme Toggle & Mobile Button -->
+    <div class="flex items-center gap-1.5">
+      <button
+        id="theme-toggle"
+        type="button"
+        aria-label="Toggle light and dark theme"
+        class="p-1.5 rounded-md text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors border border-transparent hover:border-neutral-200 dark:hover:border-neutral-800"
+      >
+        <Sun class="w-4 h-4 hidden dark:block text-neutral-300" />
+        <Moon class="w-4 h-4 block dark:hidden text-neutral-700" />
+      </button>
+
+      <!-- Mobile menu trigger -->
+      <button
+        id="mobile-menu-toggle"
+        type="button"
+        aria-label="Toggle Navigation Menu"
+        class="md:hidden p-1.5 rounded-md text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors"
+      >
+        <Menu class="w-4 h-4 menu-open-icon" />
+        <X class="w-4 h-4 menu-close-icon hidden" />
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation Drawer -->
+  <div id="mobile-menu" class="hidden md:hidden border-b border-neutral-200 dark:border-neutral-800 bg-bg-light dark:bg-bg-dark px-4 pt-2 pb-4 space-y-1">
+    {navItems.map((item) => (
+      <a
+        href={item.path}
+        class="block px-3 py-2 rounded-md text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-900"
+      >
+        {item.name}
+      </a>
+    ))}
+  </div>
+</header>
+
+<script>
+  // Theme Switcher Logic
+  const themeToggle = document.getElementById('theme-toggle');
+  themeToggle?.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.toggle('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+
+  // Mobile Menu Logic
+  const mobileBtn = document.getElementById('mobile-menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const openIcon = mobileBtn?.querySelector('.menu-open-icon');
+  const closeIcon = mobileBtn?.querySelector('.menu-close-icon');
+
+  mobileBtn?.addEventListener('click', () => {
+    const isExpanded = mobileMenu?.classList.toggle('hidden');
+    if (openIcon && closeIcon) {
+      openIcon.classList.toggle('hidden', !isExpanded);
+      closeIcon.classList.toggle('hidden', isExpanded);
+    }
+  });
+</script>
