@@ -1,0 +1,26 @@
+# Yashasav
+
+> Systems & LLM Inference Engineer specializing in LLM serving runtimes (PagedAttention, RadixAttention, KV Cache allocation), Apache Kafka internals, distributed event-driven systems, high-throughput store operations (Blinkit), database systems, and platform engineering.
+
+## About Yashasav
+- **Focus**: LLM Inference Serving Runtimes, Distributed Systems, Apache Kafka Internals, High-Throughput Infrastructure, Database Systems.
+- **Experience**: Built high-throughput inventory management and store operations systems at Blinkit; worked on platform engineering, distributed event streaming, and state management.
+- **Website**: https://yashasav.dev
+- **Google Scholar**: https://scholar.google.com/citations?user=xgUahW8AAAAJ
+- **IEEE Xplore**: https://ieeexplore.ieee.org/abstract/document/11418208/
+
+## Published Research
+- [BloBS-FL: A Robust Architecture of Blockchain Based Decentralized Split Federated Learning](https://ieeexplore.ieee.org/abstract/document/11418208/): Research on decentralized split federated learning leveraging blockchain architectures for privacy-preserving, robust model training. Published in IEEE / COMSNETS 2026.
+
+## Technical Writing & Deep Dives
+- [Apache Kafka Internals: Why It Is an Immutable Commit Log, Not a Simple Queue](https://yashasav.dev/posts/apache-kafka-internals-commit-log/): Deep dive into Kafka's segment log layout, page cache zero-copy (`sendfile`), consumer lag, offset management, backpressure mechanisms, and partitioning strategies.
+- [PagedAttention vs RadixAttention: Memory Management in LLM Serving Runtimes](https://yashasav.dev/posts/paged-attention-vs-radix-attention/): Architectural comparison of page-table KV cache management (vLLM) vs prefix tree radix triage (SGLang) for optimizing LLM inference throughput and memory fragmentation.
+
+## Key Topics & Expertise
+- **LLM Inference Serving**: KV Cache management, memory fragmentation, PagedAttention (vLLM), RadixAttention (SGLang), continuous batching, prefix caching.
+- **Apache Kafka & Streaming**: Log-structured storage, zero-copy socket transfers, segment indexes, partition offsets, consumer rebalancing, backpressure strategies.
+- **Distributed Systems & Data Infrastructure**: High-throughput message delivery, transactional guarantees, inventory operations, database indexing, platform reliability.
+
+## Feeds & Meta
+- Site Feed: https://yashasav.dev/rss.xml
+- Sitemap: https://yashasav.dev/sitemap-index.xml

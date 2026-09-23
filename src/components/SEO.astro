@@ -5,18 +5,88 @@ export interface Props {
   image?: string;
   article?: boolean;
   pubDate?: Date;
+  type?: 'website' | 'article' | 'profile' | 'publication';
+  keywords?: string[];
 }
 
 const {
-  title = "Yashasav | LLM Inference & Systems Engineer",
-  description = "Technical blog and personal portfolio focused on LLM inference runtime engineering, CUDA optimization, hardware compilers, and high-performance AI infrastructure.",
+  title = "Yashasav | Systems & LLM Inference Engineer",
+  description = "Personal website & deep-dive technical engineering blog by Yashasav. Focused on LLM inference serving runtimes (PagedAttention, RadixAttention), Apache Kafka commit log internals, distributed systems, databases, and high-throughput infrastructure.",
   image = "/og-image.png",
   article = false,
   pubDate,
+  type = article ? 'article' : 'website',
+  keywords = [
+    "Yashasav",
+    "LLM Inference Engine",
+    "PagedAttention",
+    "RadixAttention",
+    "vLLM",
+    "SGLang",
+    "KV Cache Management",
+    "Apache Kafka",
+    "Kafka Commit Log",
+    "Distributed Systems",
+    "High Throughput Systems",
+    "Blinkit Engineering",
+    "Database Engineering",
+    "Platform Engineering",
+    "Decentralized Split Federated Learning",
+    "BloBS-FL"
+  ]
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || Astro.url.origin);
 const formattedTitle = title.includes("Yashasav") ? title : `${title} — Yashasav`;
+const keywordsString = keywords.join(", ");
+const siteOrigin = Astro.site ? Astro.site.origin : "https://yashasav.dev";
+const fullImageUrl = new URL(image, canonicalURL).href;
+
+// Base Person Schema
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Yashasav",
+  "url": siteOrigin,
+  "jobTitle": "Systems & LLM Inference Engineer",
+  "sameAs": [
+    "https://scholar.google.com/citations?user=xgUahW8AAAAJ",
+    "https://ieeexplore.ieee.org/abstract/document/11418208/"
+  ],
+  "knowsAbout": [
+    "LLM Inference Serving Runtimes",
+    "PagedAttention & RadixAttention",
+    "KV Cache Allocation",
+    "Apache Kafka Architecture & Internals",
+    "Distributed Systems",
+    "High Throughput Store Operations & Inventory",
+    "Database Engineering",
+    "Split Federated Learning & Blockchain"
+  ]
+};
+
+// Website Schema
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Yashasav — Systems & LLM Inference Engineer",
+  "url": siteOrigin,
+  "author": personSchema,
+  "description": description
+};
+
+// Article / Publication Schema if article
+const articleSchema = article ? {
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": title,
+  "description": description,
+  "author": personSchema,
+  "datePublished": pubDate ? pubDate.toISOString() : undefined,
+  "mainEntityOfPage": canonicalURL.href,
+  "image": fullImageUrl,
+  "publisher": personSchema
+} : null;
 ---
 
 <!-- Global Metadata -->
@@ -25,27 +95,42 @@ const formattedTitle = title.includes("Yashasav") ? title : `${title} — Yashas
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <meta name="generator" content={Astro.generator} />
 
+<!-- Robots & Indexing for Search Engines & LLMs -->
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+<meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large" />
+<meta name="bingbot" content="index, follow" />
+
 <!-- Canonical URL -->
-<link rel="canonical" href={canonicalURL} />
+<link rel="canonical" href={canonicalURL.href} />
 
 <!-- Primary Meta Tags -->
 <title>{formattedTitle}</title>
 <meta name="title" content={formattedTitle} />
 <meta name="description" content={description} />
 <meta name="author" content="Yashasav" />
-<meta name="keywords" content="LLM Inference, PagedAttention, RadixAttention, vLLM, SGLang, CUDA, Systems Engineering, Hardware Compilers, AI Performance" />
+<meta name="keywords" content={keywordsString} />
+
+<!-- RSS Feed Link -->
+<link rel="alternate" type="application/rss+xml" title="Yashasav RSS Feed" href="/rss.xml" />
+<link rel="author" href="/llms.txt" />
 
 <!-- Open Graph / Facebook -->
-<meta property="og:type" content={article ? "article" : "website"} />
-<meta property="og:url" content={canonicalURL} />
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content="Yashasav" />
+<meta property="og:url" content={canonicalURL.href} />
 <meta property="og:title" content={formattedTitle} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image, canonicalURL)} />
+<meta property="og:image" content={fullImageUrl} />
 {pubDate && <meta property="article:published_time" content={pubDate.toISOString()} />}
 
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={canonicalURL} />
-<meta property="twitter:title" content={formattedTitle} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image, canonicalURL)} />
+<!-- Twitter / X Cards -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonicalURL.href} />
+<meta name="twitter:title" content={formattedTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={fullImageUrl} />
+
+<!-- Structured Data (JSON-LD) -->
+<script type="application/ld+json" is:inline set:html={JSON.stringify(websiteSchema)} />
+<script type="application/ld+json" is:inline set:html={JSON.stringify(personSchema)} />
+{articleSchema && <script type="application/ld+json" is:inline set:html={JSON.stringify(articleSchema)} />}

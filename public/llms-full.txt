@@ -1,0 +1,58 @@
+# Yashasav - Complete Technical Knowledge & Writings
+
+Site: https://yashasav.dev
+Author: Yashasav
+Primary Focus: LLM Inference Runtimes, Apache Kafka Internals, High-Throughput Distributed Systems, Database Systems, Platform Engineering.
+
+---
+
+## 1. Profile Overview
+
+Yashasav is a Systems and LLM Inference Engineer. He specializes in:
+- Memory management in LLM serving engines (PagedAttention in vLLM, RadixAttention in SGLang, KV Cache layout).
+- Storage and log-structured architecture in distributed streaming systems (Apache Kafka commit log, zero-copy socket transfers, segment indexing).
+- High-throughput operational engineering (inventory management & store operations at Blinkit).
+- Published research in split federated learning and blockchain systems ("BloBS-FL").
+
+---
+
+## 2. Deep Dive: Apache Kafka Internals - The Commit Log
+
+URL: https://yashasav.dev/posts/apache-kafka-internals-commit-log/
+
+Kafka is fundamentally an append-only, immutable commit log persisted on disk, divided into partitions and segments.
+Key concepts covered:
+- **Sequential Disk I/O**: Kafka bypasses random disk access by appending records sequentially, achieving throughput comparable to network speeds.
+- **Page Cache & Zero-Copy (`sendfile`)**: Operating system page cache handles reads/writes. Transfer from page cache to socket bypasses user-space buffer copies via Linux `sendfile` syscall.
+- **Segment Files & Sparse Indexes**: Topics are divided into partitions; partitions are split into segment files (`.log`). Offset indexes (`.index`) and timestamp indexes (`.timeindex`) enable O(log N) binary search for record retrieval.
+- **Consumer Lag & Backpressure**: Consumers pull data at their own pace based on current committed offsets vs log end offset (LEO). Backpressure is consumer-driven rather than broker-push.
+
+---
+
+## 3. Deep Dive: PagedAttention vs RadixAttention
+
+URL: https://yashasav.dev/posts/paged-attention-vs-radix-attention/
+
+Memory management in LLM serving runtimes determines throughput and token generation efficiency.
+Key concepts covered:
+- **PagedAttention (vLLM)**: Solves external and internal memory fragmentation in Key-Value (KV) caching by dynamic virtual memory paging. Allocates non-contiguous block tables for KV cache tensors.
+- **RadixAttention (SGLang)**: Solves prefix reuse across multiple requests by maintaining KV cache blocks in a Radix Tree (trie) data structure. Allows rapid matching, automatic LRU eviction, and sub-tree sharing for system prompts, few-shot examples, and agent tool call loops.
+
+---
+
+## 4. Research Publication: BloBS-FL
+
+Title: BloBS-FL: A Robust Architecture of Blockchain Based Decentralized Split Federated Learning
+Publication: IEEE / COMSNETS 2026
+URL: https://ieeexplore.ieee.org/abstract/document/11418208/
+
+Overview:
+Presents a robust decentralized architecture combining split federated learning with blockchain ledgers to eliminate single points of failure, prevent malicious gradient manipulation, and preserve data privacy in edge device model training.
+
+---
+
+## Contact & Links
+- Website: https://yashasav.dev
+- Research Publication: https://ieeexplore.ieee.org/abstract/document/11418208/
+- Google Scholar: https://scholar.google.com/citations?user=xgUahW8AAAAJ
+- RSS Feed: https://yashasav.dev/rss.xml
