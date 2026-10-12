@@ -56,5 +56,5 @@ User-agent: Diffbot
 Allow: /
 
 # Sitemap locations
-Sitemap: https://yashasav.dev/sitemap-index.xml
-Sitemap: https://yashasav.dev/sitemap-0.xml
+Sitemap: https://kernel.yamuprajapati05.workers.dev/sitemap-index.xml
+Sitemap: https://kernel.yamuprajapati05.workers.dev/sitemap-0.xml

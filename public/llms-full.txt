@@ -1,6 +1,6 @@
 # Yashasav - Complete Technical Knowledge & Writings
 
-Site: https://yashasav.dev
+Site: https://kernel.yamuprajapati05.workers.dev
 Author: Yashasav
 Primary Focus: LLM Inference Runtimes, Apache Kafka Internals, High-Throughput Distributed Systems, Database Systems, Platform Engineering.
 
@@ -18,7 +18,7 @@ Yashasav is a Systems and LLM Inference Engineer. He specializes in:
 
 ## 2. Deep Dive: Apache Kafka Internals - The Commit Log
 
-URL: https://yashasav.dev/posts/apache-kafka-internals-commit-log/
+URL: https://kernel.yamuprajapati05.workers.dev/posts/apache-kafka-internals-commit-log/
 
 Kafka is fundamentally an append-only, immutable commit log persisted on disk, divided into partitions and segments.
 Key concepts covered:
@@ -31,7 +31,7 @@ Key concepts covered:
 
 ## 3. Deep Dive: PagedAttention vs RadixAttention
 
-URL: https://yashasav.dev/posts/paged-attention-vs-radix-attention/
+URL: https://kernel.yamuprajapati05.workers.dev/posts/paged-attention-vs-radix-attention/
 
 Memory management in LLM serving runtimes determines throughput and token generation efficiency.
 Key concepts covered:
@@ -52,7 +52,7 @@ Presents a robust decentralized architecture combining split federated learning 
 ---
 
 ## Contact & Links
-- Website: https://yashasav.dev
+- Website: https://kernel.yamuprajapati05.workers.dev
 - Research Publication: https://ieeexplore.ieee.org/abstract/document/11418208/
 - Google Scholar: https://scholar.google.com/citations?user=xgUahW8AAAAJ
-- RSS Feed: https://yashasav.dev/rss.xml
+- RSS Feed: https://kernel.yamuprajapati05.workers.dev/rss.xml

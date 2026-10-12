@@ -5,7 +5,7 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
 export default defineConfig({
-  site: 'https://yashasav.dev',
+  site: 'https://kernel.yamuprajapati05.workers.dev',
   integrations: [tailwind({
     applyBaseStyles: false,
   }), sitemap()],

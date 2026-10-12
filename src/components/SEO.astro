@@ -36,10 +36,11 @@ const {
   ]
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site || Astro.url.origin);
+const siteUrl = "https://kernel.yamuprajapati05.workers.dev";
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || siteUrl);
 const formattedTitle = title.includes("Yashasav") ? title : `${title} — Yashasav`;
 const keywordsString = keywords.join(", ");
-const siteOrigin = Astro.site ? Astro.site.origin : "https://yashasav.dev";
+const siteOrigin = Astro.site ? Astro.site.origin : siteUrl;
 const fullImageUrl = new URL(image, canonicalURL).href;
 
 // Base Person Schema

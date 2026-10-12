@@ -7,9 +7,9 @@ export async function GET(context: APIContext) {
   const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
   return rss({
-    title: 'Yashasav — LLM Inference & Systems Engineer',
-    description: 'Technical blog and personal portfolio focused on LLM inference runtime engineering, CUDA optimization, and hardware compilers.',
-    site: context.site || 'https://yashasav.dev',
+    title: 'Yashasav — Systems & LLM Inference Engineer',
+    description: 'Technical blog and personal portfolio focused on LLM inference runtime engineering, Apache Kafka commit log internals, and distributed systems.',
+    site: context.site || 'https://kernel.yamuprajapati05.workers.dev',
     items: sortedPosts.map((post) => ({
       title: post.data.title,
       pubDate: post.data.pubDate,
