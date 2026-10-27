@@ -2,21 +2,34 @@
 
 Site: https://kernel.yamuprajapati05.workers.dev
 Author: Yashasav
-Primary Focus: LLM Inference Runtimes, Apache Kafka Internals, High-Throughput Distributed Systems, Database Systems, Platform Engineering.
+Primary Focus: LLM Inference Runtimes, FlashAttention, Apache Kafka Internals, High-Throughput Distributed Systems, Database Systems, Platform Engineering.
 
 ---
 
 ## 1. Profile Overview
 
 Yashasav is a Systems and LLM Inference Engineer. He specializes in:
-- Memory management in LLM serving engines (PagedAttention in vLLM, RadixAttention in SGLang, KV Cache layout).
+- Memory management in LLM serving engines (FlashAttention in CUDA/H100, PagedAttention in vLLM, RadixAttention in SGLang, KV Cache layout).
 - Storage and log-structured architecture in distributed streaming systems (Apache Kafka commit log, zero-copy socket transfers, segment indexing).
 - High-throughput operational engineering (inventory management & store operations at Blinkit).
 - Published research in split federated learning and blockchain systems ("BloBS-FL").
 
 ---
 
-## 2. Deep Dive: Apache Kafka Internals - The Commit Log
+## 2. Deep Dive: FlashAttention from First Principles
+
+URL: https://kernel.yamuprajapati05.workers.dev/posts/flash-attention-deep-dive/
+
+Standard attention is heavily memory-bandwidth bound on modern GPUs (like NVIDIA H100 with 3.35 TB/s HBM vs 33 TB/s SRAM).
+Key concepts covered:
+- **The Large N Memory Explosion**: Storing intermediate N x N score and probability matrices (S and P) requires over 524 GB across 32 heads at N=64k, instantly causing Out-Of-Memory errors on 80GB GPUs.
+- **The Softmax Dilemma**: Naive block parallelization fails because softmax requires a global row-wise maximum and exponential sum to normalize.
+- **Online Softmax**: Mathematically rescales running max and exponential sums using e^(m_old - m_new), computing exact softmax over streaming chunks in a single pass without storing previous chunks.
+- **2D SRAM Tiling (N=8, d=4 Walkthrough)**: Divides Q, K, V into SRAM blocks, accumulates partial outputs into fast SRAM, and writes the output tensor O to HBM exactly once. Intermediate attention weights S and P never touch HBM.
+
+---
+
+## 3. Deep Dive: Apache Kafka Internals - The Commit Log
 
 URL: https://kernel.yamuprajapati05.workers.dev/posts/apache-kafka-internals-commit-log/
 
@@ -29,7 +42,7 @@ Key concepts covered:
 
 ---
 
-## 3. Deep Dive: PagedAttention vs RadixAttention
+## 4. Deep Dive: PagedAttention vs RadixAttention
 
 URL: https://kernel.yamuprajapati05.workers.dev/posts/paged-attention-vs-radix-attention/
 
@@ -40,7 +53,7 @@ Key concepts covered:
 
 ---
 
-## 4. Research Publication: BloBS-FL
+## 5. Research Publication: BloBS-FL
 
 Title: BloBS-FL: A Robust Architecture of Blockchain Based Decentralized Split Federated Learning
 Publication: IEEE / COMSNETS 2026

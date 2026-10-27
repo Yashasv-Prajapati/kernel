@@ -16,15 +16,15 @@ const { title, description, image, article, pubDate } = Astro.props;
 ---
 
 <!xhtml>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <SEO title={title} description={description} image={image} article={article} pubDate={pubDate} />
     
-    <!-- Inline script to set theme state immediately to prevent FOUC -->
+    <!-- Inline script to set theme state immediately to prevent FOUC (Default: Light) -->
     <script is:inline>
       (function() {
         const storedTheme = localStorage.getItem('theme');
-        if (storedTheme === 'dark' || (!storedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        if (storedTheme === 'dark') {
           document.documentElement.classList.add('dark');
         } else {
           document.documentElement.classList.remove('dark');

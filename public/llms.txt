@@ -1,6 +1,6 @@
 # Yashasav
 
-> Systems & LLM Inference Engineer specializing in LLM serving runtimes (PagedAttention, RadixAttention, KV Cache allocation), Apache Kafka internals, distributed event-driven systems, high-throughput store operations (Blinkit), database systems, and platform engineering.
+> Systems & LLM Inference Engineer specializing in LLM serving runtimes (FlashAttention, PagedAttention, RadixAttention, KV Cache allocation), Apache Kafka internals, distributed event-driven systems, high-throughput store operations (Blinkit), database systems, and platform engineering.
 
 ## About Yashasav
 - **Focus**: LLM Inference Serving Runtimes, Distributed Systems, Apache Kafka Internals, High-Throughput Infrastructure, Database Systems.
@@ -13,11 +13,12 @@
 - [BloBS-FL: A Robust Architecture of Blockchain Based Decentralized Split Federated Learning](https://ieeexplore.ieee.org/abstract/document/11418208/): Research on decentralized split federated learning leveraging blockchain architectures for privacy-preserving, robust model training. Published in IEEE / COMSNETS 2026.
 
 ## Technical Writing & Deep Dives
+- [FlashAttention from First Principles: How Online Softmax and SRAM Tiling Broke the GPU Memory Wall](https://kernel.yamuprajapati05.workers.dev/posts/flash-attention-deep-dive/): Hardware-first breakdown of FlashAttention on NVIDIA H100 GPUs, explaining memory-bound attention, large N storage bottlenecks, online safe softmax math and code, and concrete N=8, d=4 2D tiling.
 - [Apache Kafka Internals: Why It Is an Immutable Commit Log, Not a Simple Queue](https://kernel.yamuprajapati05.workers.dev/posts/apache-kafka-internals-commit-log/): Deep dive into Kafka's segment log layout, page cache zero-copy (`sendfile`), consumer lag, offset management, backpressure mechanisms, and partitioning strategies.
 - [PagedAttention vs RadixAttention: Memory Management in LLM Serving Runtimes](https://kernel.yamuprajapati05.workers.dev/posts/paged-attention-vs-radix-attention/): Architectural comparison of page-table KV cache management (vLLM) vs prefix tree radix triage (SGLang) for optimizing LLM inference throughput and memory fragmentation.
 
 ## Key Topics & Expertise
-- **LLM Inference Serving**: KV Cache management, memory fragmentation, PagedAttention (vLLM), RadixAttention (SGLang), continuous batching, prefix caching.
+- **LLM Inference Serving**: FlashAttention (SRAM tiling, online softmax), KV Cache management, PagedAttention (vLLM), RadixAttention (SGLang), continuous batching.
 - **Apache Kafka & Streaming**: Log-structured storage, zero-copy socket transfers, segment indexes, partition offsets, consumer rebalancing, backpressure strategies.
 - **Distributed Systems & Data Infrastructure**: High-throughput message delivery, transactional guarantees, inventory operations, database indexing, platform reliability.
 

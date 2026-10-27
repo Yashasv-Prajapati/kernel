@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 380" width="100%" height="100%">
+  <!-- Background -->
+  <rect width="840" height="380" rx="10" fill="#0d1117" stroke="#30363d" stroke-width="1.5"/>
+
+  <!-- Title Bar -->
+  <text x="30" y="38" fill="#e6edf3" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="15" font-weight="700" letter-spacing="0.5">
+    FIGURE 3: STANDARD ATTENTION'S 3-KERNEL HBM ROUND-TRIP BOTTLENECK
+  </text>
+  <line x1="30" y1="52" x2="810" y2="52" stroke="#21262d" stroke-width="1.5"/>
+
+  <!-- Top Box: Slow Off-Chip HBM -->
+  <g transform="translate(40, 70)">
+    <rect width="760" height="60" rx="6" fill="#1e1b4b" fill-opacity="0.5" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="20" y="28" fill="#fbbf24" font-family="-apple-system, sans-serif" font-size="14" font-weight="700">
+      Off-Chip HBM (VRAM) — Slow 3.35 TB/s Bus
+    </text>
+    <text x="20" y="46" fill="#cbd5e1" font-family="-apple-system, sans-serif" font-size="11">
+      Because each CUDA kernel finishes and wipes its SRAM, intermediate results MUST be stored here.
+    </text>
+  </g>
+
+  <!-- Middle: 3 Kernels in SRAM -->
+  <g transform="translate(40, 180)">
+    
+    <!-- Kernel 1: Matmul -->
+    <g transform="translate(0, 0)">
+      <rect width="235" height="170" rx="6" fill="#161b22" stroke="#38bdf8" stroke-width="1.2"/>
+      <text x="14" y="24" fill="#38bdf8" font-family="monospace" font-size="13" font-weight="bold">Kernel 1: Matmul</text>
+      <text x="14" y="42" fill="#94a3b8" font-family="monospace" font-size="10">S = Q · Kᵀ / √d</text>
+      
+      <rect x="12" y="55" width="210" height="46" rx="4" fill="#0f172a" stroke="#1e293b"/>
+      <text x="20" y="73" fill="#cbd5e1" font-family="-apple-system, sans-serif" font-size="11">1. Read Q, K from HBM</text>
+      <text x="20" y="90" fill="#cbd5e1" font-family="-apple-system, sans-serif" font-size="11">2. Multiply in Tensor Cores</text>
+
+      <!-- Bottleneck write -->
+      <rect x="12" y="110" width="210" height="46" rx="4" fill="#450a0a" stroke="#f43f5e" stroke-width="1.2"/>
+      <text x="20" y="128" fill="#fca5a5" font-family="monospace" font-size="11" font-weight="bold">↳ WRITE S (N×N) TO HBM!</text>
+      <text x="20" y="145" fill="#f87171" font-family="-apple-system, sans-serif" font-size="10">Gigantic O(N²) memory tax</text>
+    </g>
+
+    <!-- Arrow 1 to Top HBM -->
+    <path d="M 115,-10 L 115,-50" stroke="#f43f5e" stroke-width="2" stroke-dasharray="4,4"/>
+    <polygon points="115,-50 111,-42 119,-42" fill="#f43f5e"/>
+
+    <!-- Kernel 2: Softmax -->
+    <g transform="translate(262, 0)">
+      <rect width="235" height="170" rx="6" fill="#161b22" stroke="#fbbf24" stroke-width="1.2"/>
+      <text x="14" y="24" fill="#fbbf24" font-family="monospace" font-size="13" font-weight="bold">Kernel 2: Softmax</text>
+      <text x="14" y="42" fill="#94a3b8" font-family="monospace" font-size="10">P = softmax(S)</text>
+
+      <rect x="12" y="55" width="210" height="46" rx="4" fill="#451a03" stroke="#f59e0b" stroke-width="1.2"/>
+      <text x="20" y="73" fill="#fef08a" font-family="monospace" font-size="11" font-weight="bold">1. READ S (N×N) FROM HBM</text>
+      <text x="20" y="90" fill="#cbd5e1" font-family="-apple-system, sans-serif" font-size="10">Loads entire N×N matrix back</text>
+
+      <!-- Bottleneck write -->
+      <rect x="12" y="110" width="210" height="46" rx="4" fill="#450a0a" stroke="#f43f5e" stroke-width="1.2"/>
+      <text x="20" y="128" fill="#fca5a5" font-family="monospace" font-size="11" font-weight="bold">↳ WRITE P (N×N) TO HBM!</text>
+      <text x="20" y="145" fill="#f87171" font-family="-apple-system, sans-serif" font-size="10">Second O(N²) memory write!</text>
+    </g>
+
+    <!-- Arrow 2 to/from Top HBM -->
+    <path d="M 380,-50 L 380,-10" stroke="#fbbf24" stroke-width="2" stroke-dasharray="4,4"/>
+    <polygon points="380,-10 376,-18 384,-18" fill="#fbbf24"/>
+
+    <!-- Kernel 3: Output Matrix -->
+    <g transform="translate(525, 0)">
+      <rect width="235" height="170" rx="6" fill="#161b22" stroke="#34d399" stroke-width="1.2"/>
+      <text x="14" y="24" fill="#34d399" font-family="monospace" font-size="13" font-weight="bold">Kernel 3: Output</text>
+      <text x="14" y="42" fill="#94a3b8" font-family="monospace" font-size="10">O = P · V</text>
+
+      <rect x="12" y="55" width="210" height="46" rx="4" fill="#451a03" stroke="#f59e0b" stroke-width="1.2"/>
+      <text x="20" y="73" fill="#fef08a" font-family="monospace" font-size="11" font-weight="bold">1. READ P (N×N) FROM HBM</text>
+      <text x="20" y="90" fill="#cbd5e1" font-family="-apple-system, sans-serif" font-size="10">Third time traversing the bus!</text>
+
+      <!-- Final write -->
+      <rect x="12" y="110" width="210" height="46" rx="4" fill="#064e3b" stroke="#10b981" stroke-width="1.2"/>
+      <text x="20" y="128" fill="#a7f3d0" font-family="monospace" font-size="11" font-weight="bold">↳ WRITE O (N×d) TO HBM</text>
+      <text x="20" y="145" fill="#6ee7b7" font-family="-apple-system, sans-serif" font-size="10">Final output generated</text>
+    </g>
+
+    <!-- Arrow 3 to/from Top HBM -->
+    <path d="M 642,-50 L 642,-10" stroke="#34d399" stroke-width="2" stroke-dasharray="4,4"/>
+    <polygon points="642,-10 638,-18 646,-18" fill="#34d399"/>
+  </g>
+</svg>

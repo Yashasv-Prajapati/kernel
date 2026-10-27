@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 430" width="100%" height="auto" preserveAspectRatio="xMidYMid meet">
+  <rect width="840" height="430" rx="10" fill="#0d1117" stroke="#30363d" stroke-width="1.5"/>
+
+  <!-- Title -->
+  <text x="30" y="36" fill="#e6edf3" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="14" font-weight="700" letter-spacing="0.5">
+    THE BREAKTHROUGH: ONLINE SOFTMAX STREAMING 1 ELEMENT AT A TIME
+  </text>
+  <line x1="30" y1="48" x2="810" y2="48" stroke="#21262d" stroke-width="1.5"/>
+
+  <!-- Subtitle -->
+  <text x="30" y="70" fill="#94a3b8" font-family="-apple-system, sans-serif" font-size="11.5">
+    Streaming array <tspan fill="#38bdf8" font-family="monospace">x = [2, 4, 1, 5]</tspan>. Notice how we only keep a running max <tspan fill="#fbbf24" font-family="monospace">m</tspan> and sum <tspan fill="#34d399" font-family="monospace">l</tspan> on our sticky note!
+  </text>
+
+  <!-- 4 Step Cards for 4 Elements -->
+  <g transform="translate(30, 85)">
+    
+    <!-- Step 1: x_1 = 2 -->
+    <g transform="translate(0, 0)">
+      <rect width="185" height="235" rx="6" fill="#161b22" stroke="#38bdf8" stroke-width="1.2"/>
+      <rect x="0" y="0" width="185" height="28" rx="6" fill="#0c4a6e" fill-opacity="0.6"/>
+      <text x="12" y="19" fill="#38bdf8" font-family="monospace" font-size="11" font-weight="bold">1. Element x₁ = 2</text>
+
+      <text x="12" y="50" fill="#94a3b8" font-family="-apple-system, sans-serif" font-size="10">First value seen:</text>
+      <text x="12" y="68" fill="#e2e8f0" font-family="monospace" font-size="10.5">• Max: m = 2</text>
+      <text x="12" y="86" fill="#e2e8f0" font-family="monospace" font-size="10.5">• Sum: l = e^(2-2) = 1.0</text>
+
+      <!-- Sticky Note -->
+      <g transform="translate(10, 105)">
+        <rect width="165" height="115" rx="4" fill="#fef08a" stroke="#ca8a04" stroke-width="1.2"/>
+        <text x="10" y="20" fill="#713f12" font-family="monospace" font-size="10" font-weight="bold">Sticky Note State:</text>
+        <line x1="10" y1="26" x2="155" y2="26" stroke="#eab308" stroke-width="1"/>
+        <text x="10" y="48" fill="#854d0e" font-family="monospace" font-size="11">m = <tspan fill="#000000" font-weight="bold">2</tspan></text>
+        <text x="10" y="70" fill="#854d0e" font-family="monospace" font-size="11">l = <tspan fill="#000000" font-weight="bold">1.0</tspan></text>
+        <rect x="8" y="84" width="149" height="22" rx="3" fill="#ca8a04" fill-opacity="0.2"/>
+        <text x="12" y="99" fill="#713f12" font-family="-apple-system, sans-serif" font-size="9" font-weight="bold">Discard x₁ = 2!</text>
+      </g>
+    </g>
+
+    <!-- Step 2: x_2 = 4 (Increase) -->
+    <g transform="translate(198, 0)">
+      <rect width="185" height="235" rx="6" fill="#161b22" stroke="#fbbf24" stroke-width="1.2"/>
+      <rect x="0" y="0" width="185" height="28" rx="6" fill="#713f12" fill-opacity="0.6"/>
+      <text x="12" y="19" fill="#fbbf24" font-family="monospace" font-size="11" font-weight="bold">2. Element x₂ = 4</text>
+
+      <text x="12" y="46" fill="#fca5a5" font-family="-apple-system, sans-serif" font-size="9.5" font-weight="bold">Larger! 4 &gt; 2 (New Max)</text>
+      <text x="12" y="62" fill="#38bdf8" font-family="monospace" font-size="9.5">Rescale: e^(2-4) = e^(-2)</text>
+      <text x="12" y="78" fill="#cbd5e1" font-family="monospace" font-size="9.5">l = (1.0 × 0.135) + 1.0</text>
+      <text x="12" y="94" fill="#a7f3d0" font-family="monospace" font-size="9.5" font-weight="bold">= 1.1353</text>
+
+      <!-- Sticky Note -->
+      <g transform="translate(10, 105)">
+        <rect width="165" height="115" rx="4" fill="#fef08a" stroke="#ca8a04" stroke-width="1.2"/>
+        <text x="10" y="20" fill="#713f12" font-family="monospace" font-size="10" font-weight="bold">Sticky Note State:</text>
+        <line x1="10" y1="26" x2="155" y2="26" stroke="#eab308" stroke-width="1"/>
+        <text x="10" y="48" fill="#854d0e" font-family="monospace" font-size="11">m = <tspan fill="#000000" font-weight="bold">4</tspan></text>
+        <text x="10" y="70" fill="#854d0e" font-family="monospace" font-size="11">l = <tspan fill="#000000" font-weight="bold">1.1353</tspan></text>
+        <rect x="8" y="84" width="149" height="22" rx="3" fill="#ca8a04" fill-opacity="0.2"/>
+        <text x="12" y="99" fill="#713f12" font-family="-apple-system, sans-serif" font-size="9" font-weight="bold">Discard x₂ = 4!</text>
+      </g>
+    </g>
+
+    <!-- Step 3: x_3 = 1 (Smaller) -->
+    <g transform="translate(396, 0)">
+      <rect width="185" height="235" rx="6" fill="#161b22" stroke="#6366f1" stroke-width="1.2"/>
+      <rect x="0" y="0" width="185" height="28" rx="6" fill="#1e1b4b" fill-opacity="0.6"/>
+      <text x="12" y="19" fill="#a5b4fc" font-family="monospace" font-size="11" font-weight="bold">3. Element x₃ = 1</text>
+
+      <text x="12" y="46" fill="#94a3b8" font-family="-apple-system, sans-serif" font-size="9.5">Smaller: 1 &lt; 4 (Max stays 4)</text>
+      <text x="12" y="62" fill="#a5b4fc" font-family="monospace" font-size="9.5">No rescale! (α = 1.0)</text>
+      <text x="12" y="78" fill="#cbd5e1" font-family="monospace" font-size="9.5">Add: e^(1-4) = e^(-3)</text>
+      <text x="12" y="94" fill="#a7f3d0" font-family="monospace" font-size="9.5" font-weight="bold">l = 1.1353 + 0.0498 = 1.1851</text>
+
+      <!-- Sticky Note -->
+      <g transform="translate(10, 105)">
+        <rect width="165" height="115" rx="4" fill="#fef08a" stroke="#ca8a04" stroke-width="1.2"/>
+        <text x="10" y="20" fill="#713f12" font-family="monospace" font-size="10" font-weight="bold">Sticky Note State:</text>
+        <line x1="10" y1="26" x2="155" y2="26" stroke="#eab308" stroke-width="1"/>
+        <text x="10" y="48" fill="#854d0e" font-family="monospace" font-size="11">m = <tspan fill="#000000" font-weight="bold">4</tspan></text>
+        <text x="10" y="70" fill="#854d0e" font-family="monospace" font-size="11">l = <tspan fill="#000000" font-weight="bold">1.1851</tspan></text>
+        <rect x="8" y="84" width="149" height="22" rx="3" fill="#ca8a04" fill-opacity="0.2"/>
+        <text x="12" y="99" fill="#713f12" font-family="-apple-system, sans-serif" font-size="9" font-weight="bold">Discard x₃ = 1!</text>
+      </g>
+    </g>
+
+    <!-- Step 4: x_4 = 5 (Increase to Final) -->
+    <g transform="translate(594, 0)">
+      <rect width="185" height="235" rx="6" fill="#161b22" stroke="#10b981" stroke-width="1.5"/>
+      <rect x="0" y="0" width="185" height="28" rx="6" fill="#064e3b" fill-opacity="0.6"/>
+      <text x="12" y="19" fill="#34d399" font-family="monospace" font-size="11" font-weight="bold">4. Element x₄ = 5</text>
+
+      <text x="12" y="46" fill="#fca5a5" font-family="-apple-system, sans-serif" font-size="9.5" font-weight="bold">Larger! 5 &gt; 4 (New Max)</text>
+      <text x="12" y="62" fill="#38bdf8" font-family="monospace" font-size="9.5">Rescale: e^(4-5) = e^(-1)</text>
+      <text x="12" y="78" fill="#cbd5e1" font-family="monospace" font-size="9.5">l = (1.185 × 0.368) + 1.0</text>
+      <text x="12" y="94" fill="#a7f3d0" font-family="monospace" font-size="9.5" font-weight="bold">= 1.4360 ✓</text>
+
+      <!-- Sticky Note -->
+      <g transform="translate(10, 105)">
+        <rect width="165" height="115" rx="4" fill="#fef08a" stroke="#ca8a04" stroke-width="1.2"/>
+        <text x="10" y="20" fill="#713f12" font-family="monospace" font-size="10" font-weight="bold">Final Result:</text>
+        <line x1="10" y1="26" x2="155" y2="26" stroke="#eab308" stroke-width="1"/>
+        <text x="10" y="48" fill="#854d0e" font-family="monospace" font-size="11">m = <tspan fill="#000000" font-weight="bold">5</tspan></text>
+        <text x="10" y="70" fill="#854d0e" font-family="monospace" font-size="11">l = <tspan fill="#000000" font-weight="bold">1.4360</tspan></text>
+        <rect x="8" y="84" width="149" height="22" rx="3" fill="#15803d" fill-opacity="0.3"/>
+        <text x="12" y="99" fill="#166534" font-family="-apple-system, sans-serif" font-size="9" font-weight="bold">Exact Global Match!</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Bottom Takeaway -->
+  <g transform="translate(30, 335)">
+    <rect width="780" height="75" rx="6" fill="#1e1b4b" fill-opacity="0.4" stroke="#6366f1" stroke-width="1.2"/>
+    <text x="20" y="26" fill="#c7d2fe" font-family="-apple-system, sans-serif" font-size="11.5" font-weight="bold">
+      THE ONLINE SOFTMAX PRINCIPLE:
+    </text>
+    <text x="20" y="46" fill="#cbd5e1" font-family="-apple-system, sans-serif" font-size="11">
+      • If a new number is <tspan fill="#fca5a5" font-weight="bold">larger</tspan>, multiply old sum by <tspan fill="#38bdf8" font-family="monospace">e^(m_old - m_new)</tspan> and add 1.0.
+    </text>
+    <text x="20" y="64" fill="#cbd5e1" font-family="-apple-system, sans-serif" font-size="11">
+      • If a new number is <tspan fill="#a7f3d0" font-weight="bold">smaller</tspan>, leave old sum untouched and add <tspan fill="#fbbf24" font-family="monospace">e^(x_i - m)</tspan>. Zero re-reads of past data!
+    </text>
+  </g>
+</svg>

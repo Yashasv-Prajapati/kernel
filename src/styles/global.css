@@ -49,11 +49,38 @@ pre.shiki code {
   @apply my-0 rounded-none border-none;
 }
 
-/* KaTeX adjustments */
+/* KaTeX adjustments - enlarged for maximum readability */
 .katex-display {
-  @apply overflow-x-auto py-3 my-4 text-center;
+  @apply overflow-x-auto py-4 my-6 text-center;
+  font-size: 1.45em !important;
+  line-height: 1.4;
 }
 
 .katex {
-  font-size: 1.05em;
+  font-size: 1.22em;
+}
+
+.katex-display > .katex {
+  font-size: 1.45em !important;
+}
+
+/* Smooth horizontal scrolling container for KaTeX on mobile */
+.katex-display::-webkit-scrollbar {
+  height: 4px;
+}
+
+/* Responsive, centered illustrations in article prose */
+.prose img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* General blockquote styling in prose */
+.prose blockquote {
+  @apply not-italic border-l-4 border-emerald-500 bg-emerald-50/70 dark:bg-emerald-950/20 text-neutral-800 dark:text-neutral-200 p-4 rounded-r-lg my-6 shadow-sm;
 }

@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 340" width="100%" height="100%">
+  <!-- Background -->
+  <rect width="840" height="340" rx="10" fill="#0d1117" stroke="#30363d" stroke-width="1.5"/>
+
+  <!-- Title Bar -->
+  <text x="30" y="38" fill="#e6edf3" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="15" font-weight="700" letter-spacing="0.5">
+    FIGURE 2: DEFINING SEQUENCE LENGTH (N) AND HEAD DIMENSION (d)
+  </text>
+  <line x1="30" y1="52" x2="810" y2="52" stroke="#21262d" stroke-width="1.5"/>
+
+  <!-- Left: Sequence of Tokens -->
+  <g transform="translate(40, 75)">
+    <text x="0" y="20" fill="#f59e0b" font-family="monospace" font-size="13" font-weight="bold">Input Tokens (N = 4)</text>
+    <text x="0" y="38" fill="#94a3b8" font-family="-apple-system, sans-serif" font-size="11">Prompt: "The cat sat down"</text>
+
+    <!-- Token pills -->
+    <g transform="translate(0, 55)">
+      <rect x="0" y="0" width="130" height="32" rx="4" fill="#161b22" stroke="#30363d"/>
+      <text x="10" y="21" fill="#f8fafc" font-family="monospace" font-size="12">Token 0: "The"</text>
+
+      <rect x="0" y="40" width="130" height="32" rx="4" fill="#161b22" stroke="#30363d"/>
+      <text x="10" y="61" fill="#f8fafc" font-family="monospace" font-size="12">Token 1: "cat"</text>
+
+      <rect x="0" y="80" width="130" height="32" rx="4" fill="#161b22" stroke="#30363d"/>
+      <text x="10" y="101" fill="#f8fafc" font-family="monospace" font-size="12">Token 2: "sat"</text>
+
+      <rect x="0" y="120" width="130" height="32" rx="4" fill="#161b22" stroke="#30363d"/>
+      <text x="10" y="141" fill="#f8fafc" font-family="monospace" font-size="12">Token 3: "down"</text>
+    </g>
+  </g>
+
+  <!-- Middle: Matrix Q & K (N x d) -->
+  <g transform="translate(220, 75)">
+    <text x="0" y="20" fill="#38bdf8" font-family="monospace" font-size="13" font-weight="bold">Query Matrix Q (N × d)</text>
+    <text x="0" y="38" fill="#94a3b8" font-family="-apple-system, sans-serif" font-size="11">N = 4 rows, d = 3 columns</text>
+
+    <!-- Grid 4x3 -->
+    <g transform="translate(0, 55)">
+      <rect width="180" height="152" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+      <!-- Header column labels -->
+      <text x="35" y="-6" fill="#38bdf8" font-family="monospace" font-size="10" text-anchor="middle">col 0</text>
+      <text x="90" y="-6" fill="#38bdf8" font-family="monospace" font-size="10" text-anchor="middle">col 1</text>
+      <text x="145" y="-6" fill="#38bdf8" font-family="monospace" font-size="10" text-anchor="middle">col 2</text>
+
+      <!-- Row 0 -->
+      <text x="35" y="26" fill="#e2e8f0" font-family="monospace" font-size="11" text-anchor="middle">+0.21</text>
+      <text x="90" y="26" fill="#e2e8f0" font-family="monospace" font-size="11" text-anchor="middle">-0.84</text>
+      <text x="145" y="26" fill="#e2e8f0" font-family="monospace" font-size="11" text-anchor="middle">+0.45</text>
+      <line x1="10" y1="38" x2="170" y2="38" stroke="#1e293b"/>
+
+      <!-- Row 1 -->
+      <text x="35" y="64" fill="#e2e8f0" font-family="monospace" font-size="11" text-anchor="middle">+0.91</text>
+      <text x="90" y="64" fill="#e2e8f0" font-family="monospace" font-size="11" text-anchor="middle">+0.12</text>
+      <text x="145" y="64" fill="#e2e8f0" font-family="monospace" font-size="11" text-anchor="middle">+0.05</text>
+      <line x1="10" y1="76" x2="170" y2="76" stroke="#1e293b"/>
+
+      <!-- Row 2 -->
+      <text x="35" y="102" fill="#e2e8f0" font-family="monospace" font-size="11" text-anchor="middle">-0.33</text>
+      <text x="90" y="102" fill="#e2e8f0" font-family="monospace" font-size="11" text-anchor="middle">+0.41</text>
+      <text x="145" y="102" fill="#e2e8f0" font-family="monospace" font-size="11" text-anchor="middle">-0.72</text>
+      <line x1="10" y1="114" x2="170" y2="114" stroke="#1e293b"/>
+
+      <!-- Row 3 -->
+      <text x="35" y="140" fill="#e2e8f0" font-family="monospace" font-size="11" text-anchor="middle">+0.15</text>
+      <text x="90" y="140" fill="#e2e8f0" font-family="monospace" font-size="11" text-anchor="middle">-0.29</text>
+      <text x="145" y="140" fill="#e2e8f0" font-family="monospace" font-size="11" text-anchor="middle">+0.88</text>
+    </g>
+  </g>
+
+  <!-- Multiply Symbol -->
+  <text x="435" y="205" fill="#f43f5e" font-family="monospace" font-size="28" font-weight="bold">×</text>
+
+  <!-- Right: Score Matrix S (N x N) -->
+  <g transform="translate(480, 75)">
+    <text x="0" y="20" fill="#f43f5e" font-family="monospace" font-size="13" font-weight="bold">Attention Score Matrix S (N × N)</text>
+    <text x="0" y="38" fill="#f87171" font-family="-apple-system, sans-serif" font-size="11">Notice: Shape is (4 × 4) = N² quadratic explosion!</text>
+
+    <!-- Grid 4x4 -->
+    <g transform="translate(0, 55)">
+      <rect width="210" height="152" rx="6" fill="#1f1315" stroke="#f43f5e" stroke-width="1.5"/>
+      
+      <!-- Row 0 -->
+      <text x="30" y="26" fill="#fca5a5" font-family="monospace" font-size="11" text-anchor="middle">S₀₀</text>
+      <text x="80" y="26" fill="#fca5a5" font-family="monospace" font-size="11" text-anchor="middle">S₀₁</text>
+      <text x="130" y="26" fill="#fca5a5" font-family="monospace" font-size="11" text-anchor="middle">S₀₂</text>
+      <text x="180" y="26" fill="#fca5a5" font-family="monospace" font-size="11" text-anchor="middle">S₀₃</text>
+      <line x1="10" y1="38" x2="200" y2="38" stroke="#3f1d24"/>
+
+      <!-- Row 1 -->
+      <text x="30" y="64" fill="#fca5a5" font-family="monospace" font-size="11" text-anchor="middle">S₁₀</text>
+      <text x="80" y="64" fill="#fca5a5" font-family="monospace" font-size="11" text-anchor="middle">S₁₁</text>
+      <text x="130" y="64" fill="#fca5a5" font-family="monospace" font-size="11" text-anchor="middle">S₁₂</text>
+      <text x="180" y="64" fill="#fca5a5" font-family="monospace" font-size="11" text-anchor="middle">S₁₃</text>
+      <line x1="10" y1="76" x2="200" y2="76" stroke="#3f1d24"/>
+
+      <!-- Row 2 -->
+      <text x="30" y="102" fill="#fca5a5" font-family="monospace" font-size="11" text-anchor="middle">S₂₀</text>
+      <text x="80" y="102" fill="#fca5a5" font-family="monospace" font-size="11" text-anchor="middle">S₂₁</text>
+      <text x="130" y="102" fill="#fca5a5" font-family="monospace" font-size="11" text-anchor="middle">S₂₂</text>
+      <text x="180" y="102" fill="#fca5a5" font-family="monospace" font-size="11" text-anchor="middle">S₂₃</text>
+      <line x1="10" y1="114" x2="200" y2="114" stroke="#3f1d24"/>
+
+      <!-- Row 3 -->
+      <text x="30" y="140" fill="#fca5a5" font-family="monospace" font-size="11" text-anchor="middle">S₃₀</text>
+      <text x="80" y="140" fill="#fca5a5" font-family="monospace" font-size="11" text-anchor="middle">S₃₁</text>
+      <text x="130" y="140" fill="#fca5a5" font-family="monospace" font-size="11" text-anchor="middle">S₃₂</text>
+      <text x="180" y="140" fill="#fca5a5" font-family="monospace" font-size="11" text-anchor="middle">S₃₃</text>
+    </g>
+  </g>
+
+  <!-- Summary Callout -->
+  <g transform="translate(710, 130)">
+    <rect width="105" height="150" rx="6" fill="#18181b" stroke="#3f3f46"/>
+    <text x="10" y="24" fill="#fbbf24" font-family="monospace" font-size="10" font-weight="bold">TAKEAWAY:</text>
+    <text x="10" y="44" fill="#d4d4d8" font-family="-apple-system, sans-serif" font-size="10">Inputs Q, K</text>
+    <text x="10" y="60" fill="#d4d4d8" font-family="-apple-system, sans-serif" font-size="10">grow as</text>
+    <text x="10" y="76" fill="#38bdf8" font-family="monospace" font-size="11" font-weight="bold">O(N × d)</text>
+    <text x="10" y="96" fill="#d4d4d8" font-family="-apple-system, sans-serif" font-size="10">Scores S</text>
+    <text x="10" y="112" fill="#d4d4d8" font-family="-apple-system, sans-serif" font-size="10">explodes as</text>
+    <text x="10" y="128" fill="#f43f5e" font-family="monospace" font-size="11" font-weight="bold">O(N²)!</text>
+  </g>
+</svg>

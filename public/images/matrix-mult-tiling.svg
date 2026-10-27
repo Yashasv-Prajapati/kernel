@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 380" width="100%" height="auto" preserveAspectRatio="xMidYMid meet">
+  <rect width="840" height="380" rx="10" fill="#0d1117" stroke="#30363d" stroke-width="1.5"/>
+
+  <!-- Title -->
+  <text x="30" y="36" fill="#e6edf3" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="14" font-weight="700" letter-spacing="0.5">
+    WHY MATRIX MULTIPLICATION TILES EASILY: INDEPENDENT TILE COMPUTATION
+  </text>
+  <line x1="30" y1="48" x2="810" y2="48" stroke="#21262d" stroke-width="1.5"/>
+
+  <!-- Subtitle -->
+  <text x="30" y="70" fill="#94a3b8" font-family="-apple-system, sans-serif" font-size="11.5">
+    Multiplying two (4×4) matrices <tspan fill="#38bdf8" font-family="monospace">A · B = C</tspan> by accumulating independent (2×2) sub-blocks in SRAM:
+  </text>
+
+  <!-- Matrices Group -->
+  <g transform="translate(40, 95)">
+    <!-- Matrix A (4x4) -->
+    <g transform="translate(0, 0)">
+      <rect width="160" height="150" rx="6" fill="#161b22" stroke="#38bdf8" stroke-width="1.2"/>
+      <text x="14" y="22" fill="#38bdf8" font-family="monospace" font-size="12" font-weight="bold">Matrix A (4×4)</text>
+
+      <!-- Row Block 1 (Rows 0-1) Highlighted -->
+      <rect x="10" y="32" width="140" height="50" rx="4" fill="#0c4a6e" stroke="#0284c7" stroke-width="1.5"/>
+      <text x="20" y="52" fill="#bae6fd" font-family="monospace" font-size="10" font-weight="bold">Row Block A₁ (2×4)</text>
+      <text x="20" y="70" fill="#7dd3fc" font-family="monospace" font-size="9">Tokens 0–1 feature vectors</text>
+
+      <!-- Row Block 2 (Rows 2-3) Greyed -->
+      <rect x="10" y="88" width="140" height="50" rx="4" fill="#0f172a" stroke="#334155"/>
+      <text x="20" y="116" fill="#64748b" font-family="monospace" font-size="10">Row Block A₂ (2×4)</text>
+    </g>
+
+    <!-- Multiplication symbol -->
+    <text x="185" y="85" fill="#e2e8f0" font-family="-apple-system, sans-serif" font-size="24" font-weight="bold">×</text>
+
+    <!-- Matrix B (4x4) -->
+    <g transform="translate(220, 0)">
+      <rect width="160" height="150" rx="6" fill="#161b22" stroke="#fbbf24" stroke-width="1.2"/>
+      <text x="14" y="22" fill="#fbbf24" font-family="monospace" font-size="12" font-weight="bold">Matrix B (4×4)</text>
+
+      <!-- Col Block 1 (Cols 0-1) Highlighted -->
+      <rect x="10" y="32" width="65" height="106" rx="4" fill="#713f12" stroke="#d97706" stroke-width="1.5"/>
+      <text x="16" y="52" fill="#fef08a" font-family="monospace" font-size="10" font-weight="bold">Col B₁</text>
+      <text x="16" y="72" fill="#fef08a" font-family="monospace" font-size="9">(4×2)</text>
+      <text x="16" y="94" fill="#fde68a" font-family="-apple-system, sans-serif" font-size="8">Keys</text>
+      <text x="16" y="108" fill="#fde68a" font-family="-apple-system, sans-serif" font-size="8">0–1</text>
+
+      <!-- Col Block 2 (Cols 2-3) Greyed -->
+      <rect x="85" y="32" width="65" height="106" rx="4" fill="#0f172a" stroke="#334155"/>
+      <text x="92" y="52" fill="#64748b" font-family="monospace" font-size="10">Col B₂</text>
+      <text x="92" y="72" fill="#64748b" font-family="monospace" font-size="9">(4×2)</text>
+    </g>
+
+    <!-- Equals symbol -->
+    <text x="405" y="85" fill="#e2e8f0" font-family="-apple-system, sans-serif" font-size="24" font-weight="bold">=</text>
+
+    <!-- Matrix C (4x4) -->
+    <g transform="translate(440, 0)">
+      <rect width="160" height="150" rx="6" fill="#161b22" stroke="#34d399" stroke-width="1.2"/>
+      <text x="14" y="22" fill="#34d399" font-family="monospace" font-size="12" font-weight="bold">Output C (4×4)</text>
+
+      <!-- Output Tile C11 (2x2) Highlighted -->
+      <rect x="10" y="32" width="65" height="50" rx="4" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+      <text x="16" y="52" fill="#a7f3d0" font-family="monospace" font-size="11" font-weight="bold">C₁₁ (2×2)</text>
+      <text x="16" y="70" fill="#6ee7b7" font-family="monospace" font-size="8">Local tile!</text>
+
+      <rect x="85" y="32" width="65" height="50" rx="4" fill="#0f172a" stroke="#334155"/>
+      <text x="96" y="60" fill="#64748b" font-family="monospace" font-size="10">C₁₂</text>
+
+      <rect x="10" y="88" width="65" height="50" rx="4" fill="#0f172a" stroke="#334155"/>
+      <text x="24" y="116" fill="#64748b" font-family="monospace" font-size="10">C₂₁</text>
+
+      <rect x="85" y="88" width="65" height="50" rx="4" fill="#0f172a" stroke="#334155"/>
+      <text x="96" y="116" fill="#64748b" font-family="monospace" font-size="10">C₂₂</text>
+    </g>
+
+    <!-- Side Explainer Box -->
+    <g transform="translate(620, 0)">
+      <rect width="140" height="150" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="12" y="24" fill="#38bdf8" font-family="-apple-system, sans-serif" font-size="11" font-weight="bold">Independent Math:</text>
+      <text x="12" y="44" fill="#cbd5e1" font-family="monospace" font-size="9.5">C₁₁ = A₁ · B₁</text>
+      <text x="12" y="66" fill="#94a3b8" font-family="-apple-system, sans-serif" font-size="9.5">• Needs NO data from A₂ or B₂.</text>
+      <text x="12" y="96" fill="#94a3b8" font-family="-apple-system, sans-serif" font-size="9.5">• Can be computed completely in SRAM.</text>
+      <text x="12" y="130" fill="#34d399" font-family="-apple-system, sans-serif" font-size="9.5" font-weight="bold">Zero global barrier!</text>
+    </g>
+  </g>
+
+  <!-- Bottom Contrast: Why Softmax Breaks This -->
+  <g transform="translate(40, 265)">
+    <rect width="760" height="95" rx="6" fill="#1e1b4b" fill-opacity="0.5" stroke="#f43f5e" stroke-width="1.2"/>
+    <text x="16" y="24" fill="#f87171" font-family="-apple-system, sans-serif" font-size="12" font-weight="bold">
+      THE CATCH: WHY SOFTMAX PREVENTS NAIVE TILING
+    </text>
+    <text x="16" y="46" fill="#cbd5e1" font-family="-apple-system, sans-serif" font-size="11">
+      • In matrix mult, <tspan fill="#38bdf8" font-family="monospace">C₁₁</tspan> is complete without knowing anything about rows 2–3.
+    </text>
+    <text x="16" y="66" fill="#cbd5e1" font-family="-apple-system, sans-serif" font-size="11">
+      • But in <tspan fill="#fbbf24" font-family="monospace">Softmax</tspan>, denominator <tspan fill="#f59e0b" font-family="monospace">l = Σ exp(x_j - m)</tspan> sums across the <tspan fill="#f43f5e" font-weight="bold">ENTIRE row</tspan> before you can normalize even the first element!
+    </text>
+    <text x="16" y="84" fill="#a7f3d0" font-family="-apple-system, sans-serif" font-size="10.5">
+      ➜ This is why naive tiling fails without the Online Softmax trick.
+    </text>
+  </g>
+</svg>

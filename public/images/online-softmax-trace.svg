@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 360" width="100%" height="100%">
+  <!-- Background -->
+  <rect width="840" height="360" rx="10" fill="#0d1117" stroke="#30363d" stroke-width="1.5"/>
+
+  <!-- Title Bar -->
+  <text x="30" y="38" fill="#e6edf3" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="15" font-weight="700" letter-spacing="0.5">
+    FIGURE 4: ONLINE SOFTMAX INCREMENTAL MERGE TRACE (NUMERICAL WALKTHROUGH)
+  </text>
+  <line x1="30" y1="52" x2="810" y2="52" stroke="#21262d" stroke-width="1.5"/>
+
+  <!-- Row of numbers input -->
+  <g transform="translate(40, 70)">
+    <text x="0" y="16" fill="#94a3b8" font-family="-apple-system, sans-serif" font-size="12">
+      Input row vector x = [2, 4, 3, 5] split into two streaming blocks of size 2:
+    </text>
+
+    <!-- Chunk 1 Card -->
+    <g transform="translate(0, 30)">
+      <rect width="360" height="110" rx="6" fill="#161b22" stroke="#38bdf8" stroke-width="1.2"/>
+      <text x="14" y="24" fill="#38bdf8" font-family="monospace" font-size="12" font-weight="bold">Chunk 1: [2, 4]</text>
+      
+      <text x="14" y="50" fill="#cbd5e1" font-family="monospace" font-size="11">
+        • Local max: <tspan fill="#f59e0b" font-weight="bold">m₁ = max(2, 4) = 4</tspan>
+      </text>
+      <text x="14" y="74" fill="#cbd5e1" font-family="monospace" font-size="11">
+        • Local sum: <tspan fill="#34d399" font-weight="bold">l₁ = e^(2-4) + e^(4-4)</tspan>
+      </text>
+      <text x="100" y="94" fill="#6ee7b7" font-family="monospace" font-size="11">
+        = e^(-2) + 1.0 ≈ <tspan font-weight="bold">1.1353</tspan>
+      </text>
+    </g>
+
+    <!-- Chunk 2 Card -->
+    <g transform="translate(400, 30)">
+      <rect width="360" height="110" rx="6" fill="#161b22" stroke="#fbbf24" stroke-width="1.2"/>
+      <text x="14" y="24" fill="#fbbf24" font-family="monospace" font-size="12" font-weight="bold">Chunk 2: [3, 5] (Streams In Next)</text>
+      
+      <text x="14" y="50" fill="#cbd5e1" font-family="monospace" font-size="11">
+        • Local max: <tspan fill="#f59e0b" font-weight="bold">m₂ = max(3, 5) = 5</tspan>
+      </text>
+      <text x="14" y="74" fill="#cbd5e1" font-family="monospace" font-size="11">
+        • Local sum: <tspan fill="#34d399" font-weight="bold">l₂ = e^(3-5) + e^(5-5)</tspan>
+      </text>
+      <text x="100" y="94" fill="#6ee7b7" font-family="monospace" font-size="11">
+        = e^(-2) + 1.0 ≈ <tspan font-weight="bold">1.1353</tspan>
+      </text>
+    </g>
+  </g>
+
+  <!-- Bottom Merge Card -->
+  <g transform="translate(40, 225)">
+    <rect width="760" height="115" rx="6" fill="#022c22" fill-opacity="0.5" stroke="#10b981" stroke-width="1.5"/>
+    <text x="16" y="24" fill="#34d399" font-family="-apple-system, sans-serif" font-size="13" font-weight="700">
+      Online Merge Step: Updating Without Re-reading Chunk 1
+    </text>
+
+    <text x="16" y="48" fill="#e2e8f0" font-family="monospace" font-size="11">
+      1. New Global Maximum: <tspan fill="#f59e0b" font-weight="bold">m_new = max(m₁, m₂) = max(4, 5) = 5</tspan>
+    </text>
+
+    <text x="16" y="70" fill="#e2e8f0" font-family="monospace" font-size="11">
+      2. Rescale Factor for Chunk 1: <tspan fill="#38bdf8" font-weight="bold">e^(m₁ - m_new) = e^(4 - 5) = e^(-1) ≈ 0.3679</tspan>
+    </text>
+
+    <rect x="14" y="82" width="730" height="26" rx="4" fill="#064e3b" stroke="#059669"/>
+    <text x="24" y="99" fill="#a7f3d0" font-family="monospace" font-size="11" font-weight="bold">
+      l_new = (l₁ · e^(m₁ - m_new)) + (l₂ · 1.0) = (1.1353 × 0.3679) + 1.1353 = 0.4177 + 1.1353 = 1.5530
+    </text>
+  </g>
+</svg>

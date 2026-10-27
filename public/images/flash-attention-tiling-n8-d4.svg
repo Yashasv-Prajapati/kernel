@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 420" width="100%" height="auto" preserveAspectRatio="xMidYMid meet">
+  <!-- Background -->
+  <rect width="840" height="420" rx="10" fill="#0d1117" stroke="#30363d" stroke-width="1.5"/>
+
+  <!-- Title Bar -->
+  <text x="30" y="36" fill="#e6edf3" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="14" font-weight="700" letter-spacing="0.5">
+    2D BLOCK TILING: PARTITIONING MATRICES (N = 8, d = 4)
+  </text>
+  <line x1="30" y1="48" x2="810" y2="48" stroke="#21262d" stroke-width="1.5"/>
+
+  <!-- Top: Matrix Slicing in HBM -->
+  <g transform="translate(30, 64)">
+    <text x="0" y="16" fill="#94a3b8" font-family="-apple-system, sans-serif" font-size="12">
+      1. Tensors are partitioned into 4×4 blocks in HBM:
+    </text>
+
+    <!-- Q Matrix (8x4) -->
+    <g transform="translate(0, 28)">
+      <rect width="125" height="90" rx="4" fill="#161b22" stroke="#38bdf8" stroke-width="1.2"/>
+      <text x="12" y="20" fill="#38bdf8" font-family="monospace" font-size="11" font-weight="bold">Q (8 × 4)</text>
+      
+      <rect x="10" y="28" width="105" height="26" rx="3" fill="#0c4a6e" stroke="#0284c7"/>
+      <text x="18" y="45" fill="#bae6fd" font-family="monospace" font-size="10">Q₁ (Rows 0-3)</text>
+
+      <rect x="10" y="58" width="105" height="26" rx="3" fill="#0f172a" stroke="#334155"/>
+      <text x="18" y="75" fill="#94a3b8" font-family="monospace" font-size="10">Q₂ (Rows 4-7)</text>
+    </g>
+
+    <!-- K Matrix (8x4) -->
+    <g transform="translate(145, 28)">
+      <rect width="125" height="90" rx="4" fill="#161b22" stroke="#fbbf24" stroke-width="1.2"/>
+      <text x="12" y="20" fill="#fbbf24" font-family="monospace" font-size="11" font-weight="bold">K (8 × 4)</text>
+      
+      <rect x="10" y="28" width="105" height="26" rx="3" fill="#713f12" stroke="#d97706"/>
+      <text x="18" y="45" fill="#fef08a" font-family="monospace" font-size="10">K₁ (Rows 0-3)</text>
+
+      <rect x="10" y="58" width="105" height="26" rx="3" fill="#0f172a" stroke="#334155"/>
+      <text x="18" y="75" fill="#94a3b8" font-family="monospace" font-size="10">K₂ (Rows 4-7)</text>
+    </g>
+
+    <!-- V Matrix (8x4) -->
+    <g transform="translate(290, 28)">
+      <rect width="125" height="90" rx="4" fill="#161b22" stroke="#34d399" stroke-width="1.2"/>
+      <text x="12" y="20" fill="#34d399" font-family="monospace" font-size="11" font-weight="bold">V (8 × 4)</text>
+      
+      <rect x="10" y="28" width="105" height="26" rx="3" fill="#064e3b" stroke="#059669"/>
+      <text x="18" y="45" fill="#a7f3d0" font-family="monospace" font-size="10">V₁ (Rows 0-3)</text>
+
+      <rect x="10" y="58" width="105" height="26" rx="3" fill="#0f172a" stroke="#334155"/>
+      <text x="18" y="75" fill="#94a3b8" font-family="monospace" font-size="10">V₂ (Rows 4-7)</text>
+    </g>
+
+    <!-- Slicing Strategy -->
+    <g transform="translate(440, 30)">
+      <rect width="340" height="88" rx="6" fill="#1e1b4b" fill-opacity="0.4" stroke="#6366f1" stroke-width="1"/>
+      <text x="14" y="22" fill="#a5b4fc" font-family="-apple-system, sans-serif" font-size="11" font-weight="bold">
+        Why 4×4 blocks?
+      </text>
+      <text x="14" y="42" fill="#cbd5e1" font-family="-apple-system, sans-serif" font-size="10.5">
+        • Small enough to fit comfortably in 228 KB SRAM.
+      </text>
+      <text x="14" y="60" fill="#cbd5e1" font-family="-apple-system, sans-serif" font-size="10.5">
+        • Large enough to saturate GPU Tensor Cores.
+      </text>
+      <text x="14" y="78" fill="#38bdf8" font-family="monospace" font-size="10.5">
+        • Q₁ is pinned; K and V stream in blocks.
+      </text>
+    </g>
+  </g>
+
+  <!-- Bottom: Processing Flow in SRAM -->
+  <g transform="translate(30, 205)">
+    <rect width="780" height="195" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="20" y="25" fill="#34d399" font-family="-apple-system, sans-serif" font-size="12" font-weight="bold">
+      Inside On-Chip SRAM: Processing Row Block Q₁:
+    </text>
+
+    <!-- Substep 1 -->
+    <g transform="translate(20, 38)">
+      <rect width="235" height="140" rx="5" fill="#161b22" stroke="#30363d"/>
+      <text x="12" y="22" fill="#38bdf8" font-family="monospace" font-size="11" font-weight="bold">Step 1: Load Q₁ &amp; (K₁, V₁)</text>
+      <text x="12" y="45" fill="#cbd5e1" font-family="monospace" font-size="10">• S₁₁ = Q₁ · K₁ᵀ / √4 (4×4)</text>
+      <text x="12" y="65" fill="#cbd5e1" font-family="monospace" font-size="10">• m₁ = row_max(S₁₁)</text>
+      <text x="12" y="85" fill="#cbd5e1" font-family="monospace" font-size="10">• l₁ = row_sum(exp(S₁₁ - m₁))</text>
+      <rect x="10" y="98" width="215" height="28" rx="3" fill="#064e3b" stroke="#059669"/>
+      <text x="18" y="116" fill="#a7f3d0" font-family="monospace" font-size="10" font-weight="bold">O₁ = P₁₁ · V₁ (4×4 in SRAM)</text>
+    </g>
+
+    <!-- Substep 2 -->
+    <g transform="translate(270, 38)">
+      <rect width="250" height="140" rx="5" fill="#161b22" stroke="#30363d"/>
+      <text x="12" y="22" fill="#fbbf24" font-family="monospace" font-size="11" font-weight="bold">Step 2: Stream (K₂, V₂)</text>
+      <text x="12" y="45" fill="#cbd5e1" font-family="monospace" font-size="10">• S₁₂ = Q₁ · K₂ᵀ / √4 (4×4)</text>
+      <text x="12" y="65" fill="#cbd5e1" font-family="monospace" font-size="10">• m_new = max(m₁, row_max(S₁₂))</text>
+      <text x="12" y="85" fill="#38bdf8" font-family="monospace" font-size="10" font-weight="bold">• α_i = exp(m₁ - m_new) (Rescale)</text>
+      <rect x="10" y="98" width="230" height="28" rx="3" fill="#064e3b" stroke="#059669"/>
+      <text x="18" y="116" fill="#a7f3d0" font-family="monospace" font-size="10" font-weight="bold">O₁ ← (α · O₁) + P₁₂ · V₂</text>
+    </g>
+
+    <!-- Substep 3 -->
+    <g transform="translate(535, 38)">
+      <rect width="225" height="140" rx="5" fill="#1e1b4b" fill-opacity="0.5" stroke="#6366f1"/>
+      <text x="12" y="22" fill="#c7d2fe" font-family="monospace" font-size="11" font-weight="bold">Step 3: Write Output</text>
+      <text x="12" y="46" fill="#e0e7ff" font-family="-apple-system, sans-serif" font-size="10.5">Normalize by total sum:</text>
+      <text x="12" y="66" fill="#38bdf8" font-family="monospace" font-size="10.5">O₁ = O₁ / l_new (Row-wise)</text>
+      <rect x="10" y="86" width="205" height="42" rx="3" fill="#4338ca" stroke="#818cf8"/>
+      <text x="16" y="104" fill="#ffffff" font-family="monospace" font-size="11" font-weight="bold">WRITE O₁ (4×4) ONCE</text>
+      <text x="16" y="120" fill="#c7d2fe" font-family="-apple-system, sans-serif" font-size="9.5">to HBM. S and P discarded!</text>
+    </g>
+  </g>
+</svg>
