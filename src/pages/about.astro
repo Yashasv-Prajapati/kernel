@@ -19,7 +19,7 @@ import { Terminal, Cpu, Zap, Server, Database, Mail } from '@lucide/astro';
         About & Technical Journey
       </h1>
       <p class="text-base text-neutral-600 dark:text-neutral-300 leading-relaxed max-w-2xl">
-        Software engineer working at the intersection of <strong>cutting-edge LLM inference</strong>, GPU kernel-level optimizations, and high-throughput distributed systems. I go deep on how modern systems squeeze every last FLOP out of hardware—from CUDA memory hierarchies to production Kafka pipelines.
+        Software engineer working at the intersection of <strong>cutting-edge LLM inference</strong>, GPU kernel-level optimizations, and high-throughput distributed systems. I go deep on how modern systems squeeze every last FLOP out of hardware—from CUDA memory hierarchies to event streaming internals and storage engines.
       </p>
     </div>
 
@@ -53,9 +53,9 @@ import { Terminal, Cpu, Zap, Server, Database, Mail } from '@lucide/astro';
         </p>
 
         <ul class="space-y-2 list-disc pl-5">
-          <li><strong>Apache Kafka Internals:</strong> Log-structured storage, partition key strategies, segment indexing, zero-copy <code>sendfile</code> syscalls, page cache I/O patterns, consumer lag management, and backpressure under high write amplification.</li>
-          <li><strong>High-Throughput Inventory & Fulfillment:</strong> Architecting resilient, low-latency state machines for inventory transitions and dark-store operations at Blinkit's quick-commerce scale.</li>
-          <li><strong>Databases & Storage:</strong> ACID storage engines, PostgreSQL internals, write-ahead logs, Redis for high-speed caching, and RocksDB for embedded LSM-tree storage.</li>
+          <li><strong>Event Streaming Internals:</strong> Log-structured storage, partition strategies, segment indexing, zero-copy I/O, page cache patterns, consumer lag management, and backpressure under high write amplification.</li>
+          <li><strong>High-Throughput Pipelines:</strong> Architecting resilient, low-latency state machines for inventory transitions and fulfillment operations at quick-commerce scale.</li>
+          <li><strong>Databases & Storage:</strong> ACID storage engines, relational database internals, write-ahead logs, high-speed caching layers, and embedded LSM-tree storage.</li>
         </ul>
       </div>
 
@@ -67,7 +67,7 @@ import { Terminal, Cpu, Zap, Server, Database, Mail } from '@lucide/astro';
           I write the kind of breakdowns I wish existed when I was first trying to understand these systems—<strong>first-principles, hardware-grounded, visual where possible</strong>. The blog is a mix of deep technical dives and mental models: not documentation, but the intuition behind why systems are built the way they are.
         </p>
         <p>
-          Every post starts with a question I genuinely couldn't find a satisfying answer to: Why does standard attention run out of memory at N=64K? What exactly does "zero-copy" mean in Kafka and at what layer does it apply? How does a radix tree actually eliminate KV cache recomputation?
+          Every post starts with a question I genuinely couldn't find a satisfying answer to: Why does standard attention run out of memory at large sequence lengths? What exactly does "zero-copy" mean and at what layer does it apply? How does a prefix tree actually eliminate redundant computation?
         </p>
       </div>
     </section>
@@ -88,7 +88,7 @@ import { Terminal, Cpu, Zap, Server, Database, Mail } from '@lucide/astro';
         <div class="text-[10px] font-mono uppercase tracking-wider text-neutral-500 font-bold">Production Work</div>
         <h3 class="font-bold text-xs sm:text-sm text-neutral-900 dark:text-white">Distributed Streaming</h3>
         <p class="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed font-mono">
-          Apache Kafka, Event-Driven Architecture, Log Compaction, Zero-Copy I/O, Consumer Lag, Backpressure.
+          Event Streaming, Log-Structured Storage, Zero-Copy I/O, Consumer Lag, Backpressure, High-Throughput Pipelines.
         </p>
       </div>
 
@@ -97,7 +97,7 @@ import { Terminal, Cpu, Zap, Server, Database, Mail } from '@lucide/astro';
         <div class="text-[10px] font-mono uppercase tracking-wider text-neutral-500 font-bold">Production Work</div>
         <h3 class="font-bold text-xs sm:text-sm text-neutral-900 dark:text-white">Databases & Platform</h3>
         <p class="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed font-mono">
-          PostgreSQL, Redis, RocksDB, WAL, ACID Engines, Microservices, Platform Infrastructure.
+          Storage Engines, ACID Guarantees, Write-Ahead Logs, Caching Layers, Microservices, Platform Infrastructure.
         </p>
       </div>
     </div>
@@ -106,7 +106,7 @@ import { Terminal, Cpu, Zap, Server, Database, Mail } from '@lucide/astro';
     <section class="p-5 rounded-md border border-neutral-200 dark:border-neutral-800 bg-neutral-100/50 dark:bg-neutral-900/50 space-y-3">
       <h3 class="text-base font-bold text-neutral-900 dark:text-white">Connect & Collaborate</h3>
       <p class="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-        Always open to discussing inference engine internals, GPU optimization techniques, Kafka streaming architecture, or anything at the boundary of systems software and ML infrastructure.
+        Always open to discussing inference engine internals, GPU optimization techniques, high-throughput system design, or anything at the boundary of systems software and ML infrastructure.
       </p>
       <div class="flex flex-wrap gap-2">
         <a

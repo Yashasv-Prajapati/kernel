@@ -8,7 +8,7 @@ export async function GET(context: APIContext) {
 
   return rss({
     title: 'Yashasav — LLM Inference & High-Throughput Systems',
-    description: 'Technical deep dives on cutting-edge LLM inference engines, GPU kernel optimizations, Apache Kafka internals, and high-throughput distributed systems.',
+    description: 'Technical deep dives on cutting-edge LLM inference engines, GPU kernel optimizations, high-throughput distributed systems, and event streaming internals.',
     site: context.site || 'https://kernel.yamuprajapati05.workers.dev',
     items: sortedPosts.map((post) => ({
       title: post.data.title,

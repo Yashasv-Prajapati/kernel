@@ -17,7 +17,7 @@ const allTags = Array.from(new Set(allPosts.flatMap((post) => post.data.tags)));
 
 <BaseLayout
   title="Yashasav | Distributed Systems Engineer"
-  description="Personal portfolio and technical blog of Yashasav — Distributed Systems, Apache Kafka, High-Throughput infrastructure, and deep dives into LLM Inference Engines."
+  description="Personal portfolio and technical blog of Yashasav — LLM Inference, GPU optimizations, high-throughput distributed systems, and deep dives into how modern infrastructure actually works."
 >
   <div class="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-14">
     
@@ -33,7 +33,7 @@ const allTags = Array.from(new Set(allPosts.flatMap((post) => post.data.tags)));
         </h1>
 
         <p class="text-base text-neutral-600 dark:text-neutral-300 leading-relaxed font-normal">
-          Software engineer obsessed with <strong>cutting-edge LLM inference</strong>, GPU kernel-level optimizations, and high-throughput distributed systems. I write first-principles deep dives on how inference engines actually work—from SRAM tiling and KV cache management to production Kafka pipelines and storage internals.
+          Software engineer obsessed with <strong>cutting-edge LLM inference</strong>, GPU kernel-level optimizations, and high-throughput distributed systems. I write first-principles deep dives on how inference engines and large-scale systems actually work under the hood.
         </p>
 
         <!-- Social Icons Bar - Sharp Buttons -->
@@ -93,10 +93,10 @@ const allTags = Array.from(new Set(allPosts.flatMap((post) => post.data.tags)));
       </h2>
       <div class="prose dark:prose-invert max-w-none text-neutral-600 dark:text-neutral-300 leading-relaxed text-sm">
         <p>
-          I go deep on how <strong>LLM inference engines</strong> squeeze performance out of modern GPUs—analyzing kernel-level memory optimizations like FlashAttention's SRAM tiling, PagedAttention's virtual KV paging (vLLM), and RadixAttention's prefix-tree caching (SGLang), and writing hardware-grounded breakdowns of why these designs exist.
+          I go deep on how <strong>LLM inference engines</strong> squeeze performance out of modern GPUs—analyzing kernel-level memory optimizations, attention computation strategies, and writing hardware-grounded breakdowns of why these designs exist.
         </p>
         <p>
-          On the systems side, I build and study <strong>high-throughput distributed infrastructure</strong>—Kafka's commit log internals, zero-copy <code>sendfile</code> I/O, partition strategies, and resilient inventory pipelines at Blinkit's quick-commerce scale.
+          On the systems side, I build and study <strong>high-throughput distributed infrastructure</strong>—event streaming internals, storage engine design, low-latency state pipelines, and the tradeoffs that make large-scale systems reliable.
         </p>
       </div>
     </section>
