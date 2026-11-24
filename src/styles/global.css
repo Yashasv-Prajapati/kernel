@@ -84,3 +84,33 @@ pre.shiki code {
 .prose blockquote {
   @apply not-italic border-l-4 border-emerald-500 bg-emerald-50/70 dark:bg-emerald-950/20 text-neutral-800 dark:text-neutral-200 p-4 rounded-r-lg my-6 shadow-sm;
 }
+
+/* Math dropdown (details/summary) in prose */
+.prose details {
+  @apply my-6 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-50/80 dark:bg-neutral-900/60 overflow-hidden;
+}
+
+.prose details summary {
+  @apply flex cursor-pointer select-none items-center gap-2 px-4 py-3 text-sm font-mono font-semibold text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800/60 transition-colors list-none;
+}
+
+.prose details summary::-webkit-details-marker {
+  display: none;
+}
+
+.prose details summary::before {
+  content: '▶';
+  @apply text-blue-500 text-xs transition-transform duration-200;
+}
+
+.prose details[open] summary::before {
+  content: '▼';
+}
+
+.prose details > *:not(summary) {
+  @apply px-4 pb-4 pt-2 text-sm text-neutral-700 dark:text-neutral-300;
+}
+
+.prose details[open] {
+  @apply border-blue-300 dark:border-blue-700;
+}
