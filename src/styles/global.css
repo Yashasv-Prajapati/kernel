@@ -108,7 +108,17 @@ pre.shiki code {
 }
 
 .prose details > *:not(summary) {
-  @apply px-4 pb-4 pt-2 text-sm text-neutral-700 dark:text-neutral-300;
+  @apply px-5 pb-5 pt-3 text-sm text-neutral-700 dark:text-neutral-300;
+}
+
+.prose details > ul,
+.prose details > ol {
+  @apply pl-6;
+}
+
+.prose details > ul li,
+.prose details > ol li {
+  @apply mb-2;
 }
 
 .prose details[open] {

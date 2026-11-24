@@ -13,19 +13,18 @@ I think this is a very limited view of it, and we as humans don't properly compr
 
 ## Abstraction and Tools
 
-Let's talk about abstraction first. In software engineering, we built tools to help us write code easily - letting an underlying system handle repeated tedious tasks for us so that we can focus on the more important things.
+Let's talk about abstraction first. In software engineering, we built tools to help us write code easily—letting an underlying system handle repeated tedious tasks so we can focus on the more important things.
 
-We built C because Assembly was becoming too tedious and difficult to write, managing every tiny bit of it. The C compiler came as a tool that handled the repeated task of converting C code files to Assembly.  
-C++ came with more abstractions and features for us.  
-Python wrapped around C and memory management.  
-JS engines came wrapped around C++.  
-React came wrapped around JS to simplify things, optimize the tree under the hood, and cut down repetitions so that the engineer could focus on developing web apps faster while the nitty-gritty gets done under the hood.
+* **Assembly → C:** Assembly was becoming too tedious to manage. The C compiler handled the mechanical work of converting C to machine instructions.
+* **C → C++:** More abstractions, object-oriented patterns, and language-level features.
+* **C → Python:** Wrapped C with memory management and a friendlier syntax—letting you think at a higher level.
+* **C++ → JS engines:** V8 and friends brought the same idea to the browser.
+* **JS → React:** Abstracted over DOM manipulation, optimized the render tree, and cut repetition so engineers could focus on building UI rather than hand-wiring updates.
+* **Bare metal → Cloud / Kubernetes:** Abstracted hardware with virtualization and containerization, then gave us an orchestrator to manage it all.
 
-Even in the cloud, we abstracted bare metal with virtualization, containerization, and a manager for these (Kubernetes).
+Even the file system is an abstraction over a data structure.
 
-The file system is an abstraction over a data structure.
-
-As we can see, we have tools and abstractions of those tools all around us. We build those to be more efficient, fast, and productive, which is exactly what should be done. You cannot expect me to write a backend server in assembly for my business now. Earlier yes, now no!
+As we can see, we have tools and abstractions of those tools all around us. We build those to be more efficient, fast, and productive—which is exactly what should be done. You cannot expect me to write a backend server in assembly for my business now. Earlier yes, now no!
 
 ## From LLMs to Agents
 
