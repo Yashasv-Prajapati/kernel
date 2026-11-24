@@ -10,8 +10,8 @@ export interface Props {
 }
 
 const {
-  title = "Yashasav | Systems & LLM Inference Engineer",
-  description = "Personal website & deep-dive technical engineering blog by Yashasav. Focused on LLM inference serving runtimes (PagedAttention, RadixAttention), Apache Kafka commit log internals, distributed systems, databases, and high-throughput infrastructure.",
+  title = "Yashasav | LLM Inference & High-Throughput Systems",
+  description = "Technical blog and personal site of Yashasav — cutting-edge LLM inference engine internals, GPU kernel optimizations (FlashAttention, PagedAttention, RadixAttention), and high-throughput distributed systems (Apache Kafka, event streaming, database engineering).",
   image = "/og-image.png",
   article = false,
   pubDate,
@@ -19,18 +19,24 @@ const {
   keywords = [
     "Yashasav",
     "LLM Inference Engine",
+    "LLM Serving Optimization",
+    "FlashAttention",
     "PagedAttention",
     "RadixAttention",
+    "KV Cache Management",
+    "GPU Kernel Optimization",
+    "CUDA Performance",
     "vLLM",
     "SGLang",
-    "KV Cache Management",
+    "Speculative Decoding",
+    "Chunked Prefill",
     "Apache Kafka",
     "Kafka Commit Log",
     "Distributed Systems",
     "High Throughput Systems",
-    "Blinkit Engineering",
+    "Zero-Copy IO",
     "Database Engineering",
-    "Platform Engineering",
+    "Blinkit Engineering",
     "Decentralized Split Federated Learning",
     "BloBS-FL"
   ]
@@ -49,19 +55,24 @@ const personSchema = {
   "@type": "Person",
   "name": "Yashasav",
   "url": siteOrigin,
-  "jobTitle": "Systems & LLM Inference Engineer",
+  "jobTitle": "Software Engineer — LLM Inference & High-Throughput Systems",
   "sameAs": [
+    "https://github.com/Yashasv-Prajapati",
+    "https://www.linkedin.com/in/yashasav-p/",
+    "https://x.com/infra_engineer4",
     "https://scholar.google.com/citations?user=xgUahW8AAAAJ",
     "https://ieeexplore.ieee.org/abstract/document/11418208/"
   ],
   "knowsAbout": [
     "LLM Inference Serving Runtimes",
-    "PagedAttention & RadixAttention",
-    "KV Cache Allocation",
+    "FlashAttention & GPU Kernel Optimization",
+    "PagedAttention & KV Cache Virtual Paging (vLLM)",
+    "RadixAttention & Prefix Tree Caching (SGLang)",
+    "Speculative Decoding & Continuous Batching",
+    "CUDA Memory Hierarchy & Roofline Models",
     "Apache Kafka Architecture & Internals",
-    "Distributed Systems",
-    "High Throughput Store Operations & Inventory",
-    "Database Engineering",
+    "High-Throughput Distributed Systems",
+    "Database Engineering & Storage Engines",
     "Split Federated Learning & Blockchain"
   ]
 };
@@ -70,7 +81,7 @@ const personSchema = {
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "name": "Yashasav — Systems & LLM Inference Engineer",
+  "name": "Yashasav — LLM Inference & High-Throughput Systems",
   "url": siteOrigin,
   "author": personSchema,
   "description": description

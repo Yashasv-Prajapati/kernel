@@ -16,8 +16,8 @@ const allTags = Array.from(new Set(allPosts.flatMap((post) => post.data.tags)));
 ---
 
 <BaseLayout
-  title="Yashasav | Inference Engines & Distributed Systems Engineer"
-  description="Personal portfolio and technical blog of Yashasav — LLM Inference Engines, Distributed Systems, Apache Kafka, and High-Throughput systems."
+  title="Yashasav | Distributed Systems Engineer"
+  description="Personal portfolio and technical blog of Yashasav — Distributed Systems, Apache Kafka, High-Throughput infrastructure, and deep dives into LLM Inference Engines."
 >
   <div class="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-14">
     
@@ -25,7 +25,7 @@ const allTags = Array.from(new Set(allPosts.flatMap((post) => post.data.tags)));
     <section class="flex flex-col md:flex-row items-start md:items-center gap-8 justify-between">
       <div class="space-y-4 max-w-2xl">
         <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-neutral-100 dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 text-xs font-mono border border-neutral-200 dark:border-neutral-800">
-          <span>Inference Engines and optimizations • Distributed Systems • High throughput systems</span>
+          <span>LLM Inference · GPU Optimizations · High-Throughput Systems</span>
         </div>
 
         <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
@@ -33,7 +33,7 @@ const allTags = Array.from(new Set(allPosts.flatMap((post) => post.data.tags)));
         </h1>
 
         <p class="text-base text-neutral-600 dark:text-neutral-300 leading-relaxed font-normal">
-          Building LLM inference serving runtimes, high-throughput distributed systems with Apache Kafka, and resilient platform infrastructure. Experienced in architecting inventory operations and database scaling.
+          Software engineer obsessed with <strong>cutting-edge LLM inference</strong>, GPU kernel-level optimizations, and high-throughput distributed systems. I write first-principles deep dives on how inference engines actually work—from SRAM tiling and KV cache management to production Kafka pipelines and storage internals.
         </p>
 
         <!-- Social Icons Bar - Sharp Buttons -->
@@ -73,9 +73,9 @@ const allTags = Array.from(new Set(allPosts.flatMap((post) => post.data.tags)));
       <!-- Clean Profile Card -->
       <div class="shrink-0">
         <div class="w-32 h-32 sm:w-36 sm:h-36 rounded-md bg-card-light dark:bg-card-dark border border-neutral-200 dark:border-neutral-800 p-3 flex flex-col items-center justify-center text-center">
-          <Server class="w-8 h-8 text-neutral-700 dark:text-neutral-300 mb-1.5" />
+          <Server class="w-8 h-8 text-blue-500 mb-1.5" />
           <span class="font-mono text-xs font-bold text-neutral-900 dark:text-white">Yashasav</span>
-          <span class="text-[11px] text-neutral-500 font-mono">@systems_eng</span>
+          <span class="text-[11px] text-neutral-500 font-mono">inference · systems</span>
         </div>
       </div>
     </section>
@@ -89,14 +89,14 @@ const allTags = Array.from(new Set(allPosts.flatMap((post) => post.data.tags)));
         <span>Engineering Focus</span>
       </div>
       <h2 class="text-xl font-bold tracking-tight text-neutral-900 dark:text-white">
-        High-Throughput Systems & LLM Serving
+        Cutting-Edge Inference & High-Throughput Systems
       </h2>
       <div class="prose dark:prose-invert max-w-none text-neutral-600 dark:text-neutral-300 leading-relaxed text-sm">
         <p>
-          My technical focus spans <strong>LLM inference engines</strong> (PagedAttention & RadixAttention memory optimizations) alongside <strong>large-scale distributed systems</strong>.
+          I go deep on how <strong>LLM inference engines</strong> squeeze performance out of modern GPUs—analyzing kernel-level memory optimizations like FlashAttention's SRAM tiling, PagedAttention's virtual KV paging (vLLM), and RadixAttention's prefix-tree caching (SGLang), and writing hardware-grounded breakdowns of why these designs exist.
         </p>
         <p>
-          Having engineered high-throughput event pipelines for inventory management (at Blinkit), I write technical breakdowns on Kafka log segment internals, zero-copy I/O, consumer lag, and database state synchronization.
+          On the systems side, I build and study <strong>high-throughput distributed infrastructure</strong>—Kafka's commit log internals, zero-copy <code>sendfile</code> I/O, partition strategies, and resilient inventory pipelines at Blinkit's quick-commerce scale.
         </p>
       </div>
     </section>

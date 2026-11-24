@@ -2,17 +2,18 @@
 
 Site: https://kernel.yamuprajapati05.workers.dev
 Author: Yashasav
-Primary Focus: LLM Inference Runtimes, FlashAttention, Apache Kafka Internals, High-Throughput Distributed Systems, Database Systems, Platform Engineering.
+Primary Focus: Cutting-edge LLM Inference Engine Internals, GPU Kernel-Level Optimizations, High-Throughput Distributed Systems (Apache Kafka, Event Streaming, Database Engineering).
 
 ---
 
 ## 1. Profile Overview
 
-Yashasav is a Systems and LLM Inference Engineer. He specializes in:
-- Memory management in LLM serving engines (FlashAttention in CUDA/H100, PagedAttention in vLLM, RadixAttention in SGLang, KV Cache layout).
-- Storage and log-structured architecture in distributed streaming systems (Apache Kafka commit log, zero-copy socket transfers, segment indexing).
-- High-throughput operational engineering (inventory management & store operations at Blinkit).
-- Published research in split federated learning and blockchain systems ("BloBS-FL").
+Yashasav is a software engineer working at the intersection of cutting-edge LLM inference, GPU kernel optimizations, and high-throughput distributed systems. His focus areas include:
+- **LLM Inference Engine Internals**: FlashAttention SRAM tiling and Online Softmax mechanics, PagedAttention virtual KV block paging (vLLM), RadixAttention prefix-tree caching (SGLang), speculative decoding, chunked prefill, continuous batching, and KV cache compression.
+- **GPU Architecture & CUDA**: Understanding compute- vs memory-bound operations, roofline models, HBM vs SRAM memory hierarchy (H100: 3.35 TB/s HBM vs 33 TB/s SRAM), warp-level parallelism, and IO-aware kernel design.
+- **High-Throughput Distributed Systems**: Apache Kafka commit log internals, zero-copy `sendfile` I/O, log segment indexing, consumer lag management, and resilient inventory and fulfillment pipelines at Blinkit's quick-commerce scale.
+- **Database Engineering**: PostgreSQL WAL and storage engine internals, Redis high-speed caching, RocksDB LSM-tree embedded storage, ACID guarantees.
+- **Published Research**: Split federated learning and blockchain systems ("BloBS-FL", IEEE COMSNETS 2026).
 
 ---
 
@@ -22,10 +23,10 @@ URL: https://kernel.yamuprajapati05.workers.dev/posts/flash-attention-deep-dive/
 
 Standard attention is heavily memory-bandwidth bound on modern GPUs (like NVIDIA H100 with 3.35 TB/s HBM vs 33 TB/s SRAM).
 Key concepts covered:
-- **The Large N Memory Explosion**: Storing intermediate N x N score and probability matrices (S and P) requires over 524 GB across 32 heads at N=64k, instantly causing Out-Of-Memory errors on 80GB GPUs.
-- **The Softmax Dilemma**: Naive block parallelization fails because softmax requires a global row-wise maximum and exponential sum to normalize.
-- **Online Softmax**: Mathematically rescales running max and exponential sums using e^(m_old - m_new), computing exact softmax over streaming chunks in a single pass without storing previous chunks.
-- **2D SRAM Tiling (N=8, d=4 Walkthrough)**: Divides Q, K, V into SRAM blocks, accumulates partial outputs into fast SRAM, and writes the output tensor O to HBM exactly once. Intermediate attention weights S and P never touch HBM.
+- **The Large N Memory Explosion**: Storing intermediate N×N score and probability matrices (S and P) requires over 524 GB across 32 heads at N=64k, instantly causing OOM on 80GB GPUs. The bottleneck is HBM read/write, not compute.
+- **The Softmax Dilemma**: Naive block parallelization fails because softmax requires a global row-wise maximum and exponential sum to normalize—you can't split it across blocks without a second pass.
+- **Online Softmax**: Mathematically rescales running max and exponential sums using e^(m_old - m_new), computing exact softmax over streaming chunks in a single fused kernel pass without materializing previous chunks to HBM.
+- **2D SRAM Tiling (N=8, d=4 Walkthrough)**: Divides Q, K, V into SRAM-sized tiles, accumulates partial attention outputs in fast on-chip SRAM, and writes output tensor O to HBM exactly once. Intermediate weights S and P never touch HBM—achieving 3× speedups on standard benchmarks.
 
 ---
 
@@ -35,10 +36,10 @@ URL: https://kernel.yamuprajapati05.workers.dev/posts/apache-kafka-internals-com
 
 Kafka is fundamentally an append-only, immutable commit log persisted on disk, divided into partitions and segments.
 Key concepts covered:
-- **Sequential Disk I/O**: Kafka bypasses random disk access by appending records sequentially, achieving throughput comparable to network speeds.
-- **Page Cache & Zero-Copy (`sendfile`)**: Operating system page cache handles reads/writes. Transfer from page cache to socket bypasses user-space buffer copies via Linux `sendfile` syscall.
-- **Segment Files & Sparse Indexes**: Topics are divided into partitions; partitions are split into segment files (`.log`). Offset indexes (`.index`) and timestamp indexes (`.timeindex`) enable O(log N) binary search for record retrieval.
-- **Consumer Lag & Backpressure**: Consumers pull data at their own pace based on current committed offsets vs log end offset (LEO). Backpressure is consumer-driven rather than broker-push.
+- **Sequential Disk I/O**: Kafka bypasses random disk access by appending records sequentially, achieving throughput comparable to network speeds (100MB/s+).
+- **Page Cache & Zero-Copy (`sendfile`)**: OS page cache handles reads/writes. `sendfile` syscall transfers data from page cache to network socket without copying through user-space, eliminating two memory copies and two context switches per message.
+- **Segment Files & Sparse Indexes**: Topics → partitions → segment files (`.log`). Offset indexes (`.index`) and timestamp indexes (`.timeindex`) enable O(log N) binary search for record retrieval without scanning the whole log.
+- **Consumer Lag & Backpressure**: Consumers pull at their own pace based on committed offset vs log end offset (LEO). Backpressure is consumer-driven—the broker never pushes—enabling natural flow control across heterogeneous consumers.
 
 ---
 
@@ -48,12 +49,24 @@ URL: https://kernel.yamuprajapati05.workers.dev/posts/paged-attention-vs-radix-a
 
 Memory management in LLM serving runtimes determines throughput and token generation efficiency.
 Key concepts covered:
-- **PagedAttention (vLLM)**: Solves external and internal memory fragmentation in Key-Value (KV) caching by dynamic virtual memory paging. Allocates non-contiguous block tables for KV cache tensors.
-- **RadixAttention (SGLang)**: Solves prefix reuse across multiple requests by maintaining KV cache blocks in a Radix Tree (trie) data structure. Allows rapid matching, automatic LRU eviction, and sub-tree sharing for system prompts, few-shot examples, and agent tool call loops.
+- **PagedAttention (vLLM)**: Solves external and internal KV cache memory fragmentation by dynamic virtual memory paging—allocates non-contiguous fixed-size block tables for KV tensors, mapping logical to physical pages like an OS virtual memory manager. Enables 2–4× higher batch sizes vs contiguous pre-allocation.
+- **RadixAttention (SGLang)**: Solves prefix reuse across requests by maintaining KV cache blocks in a Radix Tree (trie) data structure. Allows rapid longest-prefix matching, automatic LRU eviction of cold sub-trees, and block sharing across system prompts, few-shot examples, and agent tool-call loops—achieving near-100% cache hit rates for multi-turn workloads.
 
 ---
 
-## 5. Research Publication: BloBS-FL
+## 5. Blog Post: AI Isn't Just Another Abstraction
+
+URL: https://kernel.yamuprajapati05.workers.dev/posts/then-there-was-attention/
+
+A first-principles argument for why LLM agents are not just the next level of tooling—they represent a qualitative architectural shift in how software is built. Covers:
+- The 60+ year history of abstractions (Assembly → C → Python → Cloud/Kubernetes) and why the AI transition is fundamentally different in pace and kind.
+- How LLMs store massive knowledge in numbers (bits-per-parameter capacity, 70B model ≈ 3–4× compressed English Wikipedia).
+- Error compounding in multi-step agentic tasks and why CoT + tool-based verification loops are essential (0.95^20 ≈ 36% clean-run rate without checkpoints).
+- The shift from engineer to architect: defining workflows, reviewing agent output, and maintaining evals and verifiers as first-class concerns.
+
+---
+
+## 6. Research Publication: BloBS-FL
 
 Title: BloBS-FL: A Robust Architecture of Blockchain Based Decentralized Split Federated Learning
 Publication: IEEE / COMSNETS 2026
@@ -66,6 +79,9 @@ Presents a robust decentralized architecture combining split federated learning 
 
 ## Contact & Links
 - Website: https://kernel.yamuprajapati05.workers.dev
+- GitHub: https://github.com/Yashasv-Prajapati
+- LinkedIn: https://www.linkedin.com/in/yashasav-p/
+- X (Twitter): https://x.com/infra_engineer4
 - Research Publication: https://ieeexplore.ieee.org/abstract/document/11418208/
 - Google Scholar: https://scholar.google.com/citations?user=xgUahW8AAAAJ
 - RSS Feed: https://kernel.yamuprajapati05.workers.dev/rss.xml
