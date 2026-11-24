@@ -3,7 +3,7 @@ title: "PagedAttention vs. RadixAttention: Decoding Memory Management in High-Th
 description: "An in-depth technical analysis of KV cache memory fragmentation, virtual memory paging in vLLM, and Radix tree prefix caching in SGLang."
 pubDate: 2026-09-15
 heroImage: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80"
-tags: ["inference", "vllm", "sglang", "systems", "cuda"]
+tags: ["inference", "vllm", "sglang", "cuda"]
 featured: true
 readingTime: "14 min read"
 ---

@@ -2,7 +2,7 @@
 title: "FlashAttention from First Principles: How Online Softmax and SRAM Tiling Broke the GPU Memory Wall"
 description: "A hardware-first, visual breakdown of FlashAttention for software engineers. Learn why standard attention chokes on memory transfers, how Online Softmax works on simple vectors, and how 2D block tiling achieves 3x speedups without approximations."
 pubDate: 2026-10-27
-tags: ["LLM Inference", "FlashAttention", "GPU Architecture", "CUDA", "Performance"]
+tags: ["inference", "flashattention", "cuda", "gpu"]
 featured: true
 readingTime: "16 min read"
 ---

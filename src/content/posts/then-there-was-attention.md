@@ -2,7 +2,7 @@
 title: "AI Isn't Just Another Abstraction"
 description: "LLM agents aren't just the next level of tooling—they're a qualitative leap. A look at the history of abstractions, what makes AI different, and what that means for us as engineers."
 pubDate: 2026-11-24
-tags: ["AI", "LLMs", "agents", "software-engineering"]
+tags: ["agents", "software-engineering"]
 featured: false
 readingTime: "7 min read"
 ---
